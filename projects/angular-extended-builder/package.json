@@ -1,13 +1,10 @@
 {
 	"name": "angular-extended-builder",
-	"version": "19.0.0-next.13+0.1",
+	"version": "19.0.0-next.13+1",
 	"description": "Angular extended builders with custom options for esbuild and Vite",
 	"license": "MIT",
 	"main": "dist/index.js",
 	"builders": "builders.json",
-	"exports": {
-		"./schema.json": "./dist/schema.json"
-	},
 	"files": ["dist/", "builders.json"],
 	"keywords": ["angular", "angular-builder", "builder", "esbuild", "vite"],
 	"scripts": {
