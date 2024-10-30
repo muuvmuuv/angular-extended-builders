@@ -25,4 +25,4 @@ I just build this package to provide/implement a more modern base for https://gi
 
 ## Versioning
 
-Version is always aligned with Angular version to provide type compatibility. Hot fixes and fixes will be available through `+X.X` (e.g. `19.0.0+0.1`) releases. Patches and minor release will wait until next Angular release or release candidate.
+The version of this library will always be aligned with the supported Angular version to provide type compatibility of underlying peer dependencies. Publishing fixes and patches will only effect the libs patch identifier. Major and minor releases will only be available once a Angular version has been published. During next, rc and beta releases an additional number will be prepended.
