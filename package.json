@@ -1,0 +1,26 @@
+{
+	"name": "angular-extended-builders-workspace",
+	"version": "0.0.0",
+	"license": "MIT",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"watch": "pnpm --parallel watch",
+		"build": "pnpm --parallel build",
+		"lint": "biome lint .",
+		"format": "biome format --write ."
+	},
+	"devDependencies": {
+		"@angular/cli": "^19.0.0-next.13",
+		"@biomejs/biome": "^1.9.4",
+		"@commitlint/cli": "^19.5.0",
+		"@commitlint/config-angular": "^19.5.0",
+		"del-cli": "^6.0.0",
+		"lefthook": "^1.8.2",
+		"typescript": ">=5.5 <5.7"
+	},
+	"engines": {
+		"node": ">=22",
+		"pnpm": ">=9"
+	}
+}

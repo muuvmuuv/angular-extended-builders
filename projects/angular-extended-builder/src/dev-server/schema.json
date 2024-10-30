@@ -1,0 +1,13 @@
+{
+	"$id": "ExtendedDevServerBuilderSchema",
+	"properties": {
+		"middlewares": {
+			"type": "array",
+			"description": "List of relative paths to Vite proxy middlewares.",
+			"items": {
+				"type": "string",
+				"uniqueItems": true
+			}
+		}
+	}
+}

@@ -1,0 +1,48 @@
+{
+	"name": "angular-extended-builder",
+	"version": "19.0.0-next.13+0.1",
+	"description": "Angular extended builders with custom options for esbuild and Vite",
+	"license": "MIT",
+	"main": "dist/index.js",
+	"builders": "builders.json",
+	"exports": {
+		"./schema.json": "./dist/schema.json"
+	},
+	"files": ["dist/", "builders.json"],
+	"keywords": ["angular", "angular-builder", "builder", "esbuild", "vite"],
+	"scripts": {
+		"prewatch": "pnpm build",
+		"watch": "tsc -p tsconfig.lib.json --watch",
+		"prebuild": "del-cli dist/",
+		"build": "tsc -p tsconfig.lib.prod.json",
+		"postbuild": "node schemes.mjs"
+	},
+	"dependencies": {
+		"tslib": "^2.3.0"
+	},
+	"peerDependencies": {
+		"@angular-devkit/architect": "<=0.1900.0-next.13 >0.1800.0",
+		"@angular-devkit/core": "^19.0.0-next.13",
+		"@angular/build": "^19.0.0-next.13",
+		"esbuild": "0.24.0",
+		"rxjs": "7.8.1"
+	},
+	"devDependencies": {
+		"@types/node": "^22.8.4"
+	},
+	"contributors": [
+		{
+			"email": "11534760+muuvmuuv@users.noreply.github.com",
+			"name": "Marvin Heilemann"
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/just-jeb/angular-builders",
+		"directory": "projects/angular-extended-builder"
+	},
+	"engines": {
+		"node": ">=22"
+	},
+	"sideEffects": false
+}

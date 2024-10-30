@@ -1,0 +1,17 @@
+{
+	"$id": "ExtendedApplicationBuilderSchema",
+	"properties": {
+		"plugins": {
+			"type": "array",
+			"description": "List of relative paths to esbuild plugins.",
+			"items": {
+				"type": "string",
+				"uniqueItems": true
+			}
+		},
+		"indexHtmlTransformer": {
+			"type": "string",
+			"description": "Relative path to html transformer script."
+		}
+	}
+}
