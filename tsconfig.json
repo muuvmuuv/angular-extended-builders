@@ -29,11 +29,5 @@
 			"angular-extended-builder": ["./dist/angular-extended-builder"]
 		}
 	},
-	"angularCompilerOptions": {
-		"enableI18nLegacyMessageIdFormat": false,
-		"strictInjectionParameters": true,
-		"strictInputAccessModifiers": true,
-		"strictTemplates": true
-	},
 	"exclude": ["node_modules", "dist", "out-tsc"]
 }
