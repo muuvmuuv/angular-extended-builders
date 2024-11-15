@@ -1,4 +1,9 @@
 {
+	"vsicons.presets.angular": true,
+	"typescript.preferences.importModuleSpecifier": "non-relative",
+	"[html]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
 	"[json][jsonc][json5]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
