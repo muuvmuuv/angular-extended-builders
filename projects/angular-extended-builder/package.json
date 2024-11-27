@@ -34,7 +34,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/just-jeb/angular-builders",
+		"url": "https://github.com/muuvmuuv/angular-extended-builders",
 		"directory": "projects/angular-extended-builder"
 	},
 	"engines": {
