@@ -14,6 +14,7 @@ import type {
 	ExtendedDevServerBuilderOptions,
 	ResolvedExtendedDevServerBuilderOptions,
 } from "../schema.js"
+import type { Middleware } from "./types.js"
 
 function executeBuilder(
 	options: ExtendedDevServerBuilderOptions,
@@ -33,12 +34,13 @@ function executeBuilder(
 		switchMap(async (buildOptions) => {
 			context.reportStatus("Fetching middlewares")
 
-			const middleware = await Promise.all(
-				(options.middlewares || []).map((middlewarePath) =>
-					// biome-ignore lint/suspicious/noExplicitAny: some function
-					loadModule<any>(path.join(workspaceRoot, middlewarePath)),
-				),
-			)
+			const middleware: Middleware[] = []
+
+			for (const middlewarePath of options.middlewares ?? []) {
+				middleware.push(
+					await loadModule<Middleware>(path.join(workspaceRoot, middlewarePath)),
+				)
+			}
 
 			context.reportStatus("Loading plugins")
 

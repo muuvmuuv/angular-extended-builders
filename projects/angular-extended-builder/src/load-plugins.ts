@@ -11,8 +11,12 @@ export async function loadPlugins(
 	paths: string[] | undefined,
 	workspaceRoot: string,
 ): Promise<Plugin[]> {
+	if (!paths) {
+		return []
+	}
+
 	const plugins = await Promise.all(
-		(paths || []).map((pluginPath) => {
+		paths.map((pluginPath) => {
 			return loadModule<Plugin | Plugin[]>(path.join(workspaceRoot, pluginPath))
 		}),
 	)
