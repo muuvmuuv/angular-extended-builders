@@ -1,5 +1,5 @@
 {
-	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"$schema": "../angular-extended-builder/dist/schema.json",
 	"version": 1,
 	"newProjectRoot": "projects",
 	"projects": {
@@ -16,13 +16,16 @@
 						"index": "./src/index.html",
 						"browser": "./src/main.ts",
 						"tsConfig": "./tsconfig.app.json",
+						"crossOrigin": "anonymous",
 						"assets": [
 							{
 								"input": "./public",
 								"glob": "**/*"
 							}
 						],
-						"styles": ["./src/styles.css"]
+						"styles": ["./src/styles.scss"],
+						"indexHtmlTransformer": "./plugins/index-html-transform.mjs",
+						"plugins": ["./plugins/esbuild-graphql.mjs", "./plugins/esbuild-define.mjs"]
 					},
 					"configurations": {
 						"production": {
@@ -50,6 +53,7 @@
 		}
 	},
 	"cli": {
+		"packageManager": "pnpm",
 		"analytics": false
 	}
 }

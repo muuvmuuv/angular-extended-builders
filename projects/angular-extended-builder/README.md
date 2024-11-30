@@ -9,6 +9,13 @@ I just build this package to provide/implement a more modern base for https://gi
 > [!CAUTION]
 > I use this project for my needs and my companies Angular projects, it does not guarantee to work with your project nor do I want to implement edge cases. Please refer to angular-builders if you need that type of stability.
 
+- [Usage](#usage)
+- [Builders](#builders)
+- [How to](#how-to)
+  - [Esbuild Plugins](#esbuild-plugins)
+  - [Index HTML Transformer](#index-html-transformer)
+- [Versioning](#versioning)
+
 ## Usage
 
 1. Install library
@@ -22,6 +29,16 @@ I just build this package to provide/implement a more modern base for https://gi
 | ----------- | -------------------------------------------- |
 | application | [schema.json](./src/application/schema.json) |
 | dev-server  | [schema.json](./src/dev-server/schema.json)  |
+
+## How to
+
+### Esbuild Plugins
+
+Add a `plugins` section in your _angular.json_ at `projects.<>.architect.build.options` and add an array of relative file paths to your ESM esbuild Plugins. An example can be found here: https://github.com/muuvmuuv/angular-extended-builders/tree/main/projects/app
+
+### Index HTML Transformer
+
+Add a `indexHtmlTransformer` section in your _angular.json_ at `projects.<>.architect.build.options` and add the relative file path to your ESM script. An example can be found here: https://github.com/muuvmuuv/angular-extended-builders/tree/main/projects/app
 
 ## Versioning
 

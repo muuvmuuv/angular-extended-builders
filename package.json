@@ -8,6 +8,7 @@
 		"watch": "pnpm --parallel --filter=!app watch",
 		"build": "pnpm --parallel --filter=!app build",
 		"build-app": "pnpm --filter=app build",
+		"serve": "pnpm --filter=app serve",
 		"lint": "biome lint .",
 		"format": "biome format --write ."
 	},
@@ -18,6 +19,7 @@
 		"@types/node": "^22.9.0",
 		"del-cli": "^6.0.0",
 		"lefthook": "^1.8.4",
+		"prettier": "^3.4.1",
 		"typescript": "^5.6.3"
 	},
 	"engines": {

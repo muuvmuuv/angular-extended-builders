@@ -1,23 +1,42 @@
 {
 	"name": "app",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"type": "module",
 	"private": true,
 	"scripts": {
 		"build": "ng build",
-		"serve": "ng serve"
+		"serve": "ng serve",
+		"graphql": "graphql-codegen-esm -c plugins/graphql-codegen.mjs",
+		"ng": "ng"
 	},
 	"dependencies": {
-		"@angular/animations": "19.0.0",
-		"@angular/common": "19.0.0",
-		"@angular/core": "19.0.0",
-		"@angular/platform-browser": "19.0.0",
-		"@angular/router": "19.0.0",
+		"@angular/animations": "19.0.1",
+		"@angular/common": "19.0.1",
+		"@angular/core": "19.0.1",
+		"@angular/platform-browser": "19.0.1",
+		"@angular/router": "19.0.1",
+		"@apollo/client": "^3.11.10",
+		"@date-fns/utc": "^2.1.0",
+		"apollo-angular": "^7.2.1",
+		"date-fns": "^4.1.0",
+		"graphql": "^16.9.0",
+		"hash-wasm": "^4.12.0",
+		"nanoid": "^5.0.9",
 		"rxjs": "7.8.1",
-		"tslib": "^2.8.1"
+		"tslib": "^2.8.1",
+		"type-fest": "^4.29.0"
 	},
 	"devDependencies": {
-		"@angular/cli": "19.0.0",
-		"angular-extended-builder": "workspace:*"
+		"@angular/cli": "19.0.1",
+		"@graphql-codegen/add": "^5.0.3",
+		"@graphql-codegen/cli": "^5.0.3",
+		"@graphql-codegen/import-types-preset": "^3.0.0",
+		"@graphql-codegen/time": "^5.0.1",
+		"@graphql-codegen/typescript": "^4.1.2",
+		"@graphql-codegen/typescript-graphql-files-modules": "^3.0.0",
+		"@graphql-codegen/typescript-operations": "^4.4.0",
+		"angular-extended-builder": "workspace:*",
+		"graphql-tag": "^2.12.6",
+		"html-minifier-terser": "^7.2.0"
 	}
 }

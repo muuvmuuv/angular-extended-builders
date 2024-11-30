@@ -4,9 +4,16 @@
 		"lib": ["DOM", "ES2022"]
 	},
 	"angularCompilerOptions": {
+		"disableTypeScriptVersionCheck": true,
+		"enableResourceInlining": false,
 		"enableI18nLegacyMessageIdFormat": false,
+		"fullTemplateTypeCheck": true,
+		"strictStandalone": true,
 		"strictInjectionParameters": true,
 		"strictInputAccessModifiers": true,
-		"strictTemplates": true
+		"strictTemplates": true,
+		"extendedDiagnostics": {
+			"defaultCategory": "error"
+		}
 	}
 }

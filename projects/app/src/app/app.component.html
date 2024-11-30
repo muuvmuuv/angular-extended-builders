@@ -1,3 +1,27 @@
 <h1>Hey you!</h1>
 
+<ul>
+	<li>Now: {{ now }}</li>
+	<li>UID: {{ uid }}</li>
+	<li>Random Hash: {{ randomHash.value() }}</li>
+	<li>App Version: {{ appVersion }}</li>
+	<li>App Hash: {{ appHash }}</li>
+	<li>Build Date: {{ buildDate }}</li>
+	<li>Build Env: {{ buildEnv }}</li>
+</ul>
+
+@if (spaceXCompanyInfo.isLoading()) {
+	<h6>Loading SpaceX...</h6>
+}
+
+@if (spaceXCompanyInfo.value(); as info) {
+	<h3>Space X Company Info</h3>
+
+	<ul>
+		<li>CEO: {{ info.ceo }}</li>
+		<li>COO: {{ info.coo }}</li>
+		<li>CTO: {{ info.cto }}</li>
+	</ul>
+}
+
 <router-outlet />
