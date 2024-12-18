@@ -9,16 +9,16 @@
 		"build": "pnpm --parallel --filter=!app build",
 		"build-app": "pnpm --filter=app build",
 		"serve": "pnpm --filter=app serve",
-		"lint": "biome lint .",
-		"format": "biome format --write ."
+		"lint": "biome check .",
+		"format": "biome check --unsafe --write ."
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@commitlint/cli": "^19.6.0",
+		"@commitlint/cli": "^19.6.1",
 		"@commitlint/config-angular": "^19.6.0",
-		"@types/node": "^22.10.1",
+		"@types/node": "^22.10.2",
 		"del-cli": "^6.0.0",
-		"lefthook": "^1.9.0",
+		"lefthook": "^1.9.3",
 		"prettier": "^3.4.2",
 		"typescript": "5.6.3"
 	},
