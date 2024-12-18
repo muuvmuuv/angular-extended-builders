@@ -1,4 +1,4 @@
-import * as path from "node:path"
+import path from "node:path"
 import {
 	type BuilderContext,
 	createBuilder,
@@ -9,7 +9,8 @@ import { type DevServerBuilderOutput, executeDevServerBuilder } from "@angular/b
 import type { IndexHtmlTransform } from "@angular/build/private"
 import { type Observable, from, switchMap } from "rxjs"
 
-import { loadModule, loadPlugins } from "../load-plugins.js"
+import { loadModule } from "../load-module.js"
+import { loadPlugins } from "../load-plugins.js"
 import type {
 	ExtendedDevServerBuilderOptions,
 	ResolvedExtendedDevServerBuilderOptions,
@@ -23,8 +24,6 @@ function executeBuilder(
 	const buildTarget = targetFromTargetString(options.buildTarget)
 	const workspaceRoot = getSystemPath(normalize(context.workspaceRoot))
 
-	context.reportStatus("Starting target fetching")
-
 	return from(
 		// This will combine all options from the executed and build target
 		context.getTargetOptions(
@@ -32,25 +31,23 @@ function executeBuilder(
 		) as unknown as Promise<ResolvedExtendedDevServerBuilderOptions>,
 	).pipe(
 		switchMap(async (buildOptions) => {
-			context.reportStatus("Fetching middlewares")
+			const tsConfig = path.join(workspaceRoot, buildOptions.tsConfig)
 
 			const middleware: Middleware[] = []
 
+			// Keep middleware order
 			for (const middlewarePath of options.middlewares ?? []) {
 				middleware.push(
-					await loadModule<Middleware>(path.join(workspaceRoot, middlewarePath)),
+					await loadModule<Middleware>(path.join(workspaceRoot, middlewarePath), tsConfig),
 				)
 			}
 
-			context.reportStatus("Loading plugins")
-
-			const buildPlugins = await loadPlugins(buildOptions.plugins, workspaceRoot)
-
-			context.reportStatus("Loading index transformer")
+			const buildPlugins = await loadPlugins(buildOptions.plugins, workspaceRoot, tsConfig)
 
 			const indexHtmlTransformer = buildOptions.indexHtmlTransformer
 				? await loadModule<IndexHtmlTransform>(
 						path.join(workspaceRoot, buildOptions.indexHtmlTransformer),
+						tsConfig,
 					)
 				: undefined
 
