@@ -12,8 +12,8 @@ I just build this package to provide/implement a more modern base for https://gi
 - [Usage](#usage)
 - [Builders](#builders)
 - [How to](#how-to)
-  - [Esbuild Plugins](#esbuild-plugins)
-  - [Index HTML Transformer](#index-html-transformer)
+	- [Esbuild Plugins](#esbuild-plugins)
+	- [Index HTML Transformer](#index-html-transformer)
 - [Versioning](#versioning)
 
 ## Usage
@@ -34,7 +34,10 @@ I just build this package to provide/implement a more modern base for https://gi
 
 ### Esbuild Plugins
 
-Add a `plugins` section in your _angular.json_ at `projects.<>.architect.build.options` and add an array of relative file paths to your ESM esbuild Plugins. An example can be found here: https://github.com/muuvmuuv/angular-extended-builders/tree/main/projects/app
+Add a `plugins` section in your _angular.json_ at `projects.<>.architect.build.options` and add an array of relative file paths to your ESM esbuild Plugins. Examples can be found here: https://github.com/muuvmuuv/angular-extended-builders/tree/main/projects/app/plugins
+
+- Define plugin to define environment variables
+- Graphql compatible Angular plugin to load your .gql files
 
 ### Index HTML Transformer
 
