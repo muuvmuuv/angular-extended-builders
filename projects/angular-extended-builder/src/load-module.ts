@@ -13,12 +13,10 @@ async function tsNodeRegister(tsConfig: string) {
 
 	tsNode.register({
 		project: tsConfig,
-		swc: true,
-		experimentalResolver: true,
 		compilerOptions: {
 			module: "CommonJS",
 			moduleResolution: "Node",
-			target: "ES6",
+			target: "ES2020",
 			esModuleInterop: true,
 			allowSyntheticDefaultImports: true,
 			resolveJsonModule: true,

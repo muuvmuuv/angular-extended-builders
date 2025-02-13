@@ -45,4 +45,4 @@ Add a `indexHtmlTransformer` section in your _angular.json_ at `projects.<>.arch
 
 ## Versioning
 
-The version of this library will always be aligned with the supported Angular version to provide type compatibility of underlying peer dependencies. Publishing fixes and patches will only effect the libs patch identifier. Major and minor releases will only be available once a Angular version has been published. During next, rc and beta releases, an additional number will be prepended instead.
+The major and minor version of this library will always be aligned with the supported Angular version to provide better type compatibility of underlying peer dependencies. Publishing fixes and patches will only effect the libs patch identifier. Major and minor releases will only be available once a Angular version has been published. During next, rc and beta releases, an additional number will be prepended instead.
