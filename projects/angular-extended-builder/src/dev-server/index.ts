@@ -17,6 +17,12 @@ import type {
 } from "../schema.js"
 import type { Middleware } from "./types.js"
 
+// Path where Angular loads Vite for reference:
+// https://github.com/angular/angular-cli/blob/main/packages/angular/build/src/builders/dev-server/vite-server.ts#L183
+
+// Path where we could inject Vite plugins:
+// https://github.com/angular/angular-cli/blob/main/packages/angular/build/src/builders/dev-server/vite-server.ts#L890
+
 function executeBuilder(
 	options: ExtendedDevServerBuilderOptions,
 	context: BuilderContext,
@@ -37,16 +43,15 @@ function executeBuilder(
 
 			// Keep middleware order
 			for (const middlewarePath of options.middlewares ?? []) {
-				middleware.push(
-					await loadModule<Middleware>(path.join(workspaceRoot, middlewarePath), tsConfig),
-				)
+				middleware.push(await loadModule<Middleware>(workspaceRoot, middlewarePath, tsConfig))
 			}
 
 			const buildPlugins = await loadPlugins(buildOptions.plugins, workspaceRoot, tsConfig)
 
 			const indexHtmlTransformer = buildOptions.indexHtmlTransformer
 				? await loadModule<IndexHtmlTransform>(
-						path.join(workspaceRoot, buildOptions.indexHtmlTransformer),
+						workspaceRoot,
+						buildOptions.indexHtmlTransformer,
 						tsConfig,
 					)
 				: undefined

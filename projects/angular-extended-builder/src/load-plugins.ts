@@ -1,4 +1,3 @@
-import path from "node:path"
 import type { Plugin } from "esbuild"
 import { loadModule } from "./load-module"
 
@@ -15,12 +14,7 @@ export async function loadPlugins(
 
 	const plugins = await Promise.all(
 		paths.map((pluginOrPath) => {
-			if (pluginOrPath.startsWith(".")) {
-				// Relative path
-				return loadModule<Plugin | Plugin[]>(path.join(workspaceRoot, pluginOrPath), tsConfig)
-			}
-			// Module import
-			return loadModule<Plugin | Plugin[]>(pluginOrPath, tsConfig)
+			return loadModule<Plugin | Plugin[]>(workspaceRoot, pluginOrPath, tsConfig)
 		}),
 	)
 

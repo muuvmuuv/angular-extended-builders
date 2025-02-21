@@ -18,7 +18,8 @@ function executeBuilder(options: ExtendedApplicationBuilderOptions, context: Bui
 
 		const indexHtmlTransformer = options.indexHtmlTransformer
 			? await loadModule<IndexHtmlTransform>(
-					path.join(workspaceRoot, options.indexHtmlTransformer),
+					workspaceRoot,
+					options.indexHtmlTransformer,
 					tsConfig,
 				)
 			: undefined
