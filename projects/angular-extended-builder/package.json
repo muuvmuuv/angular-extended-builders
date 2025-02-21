@@ -1,6 +1,6 @@
 {
 	"name": "angular-extended-builder",
-	"version": "19.1.7",
+	"version": "19.1.8",
 	"description": "Angular extended builders with custom options for esbuild and Vite",
 	"license": "MIT",
 	"main": "dist/index.js",
