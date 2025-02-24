@@ -1,7 +1,5 @@
-import type { Plugin } from "esbuild"
 import { loadModule } from "./load-module"
-
-// TODO: once extensions is typed by Angular itself we can remove esbuild dependency
+import type { Plugin } from "./plugin"
 
 export async function loadPlugins(
 	paths: string[] | undefined,
@@ -12,11 +10,11 @@ export async function loadPlugins(
 		return []
 	}
 
-	const plugins = await Promise.all(
-		paths.map((pluginOrPath) => {
-			return loadModule<Plugin | Plugin[]>(workspaceRoot, pluginOrPath, tsConfig)
-		}),
-	)
+	const plugins: Plugin[] = []
+
+	for (const pluginOrPath of paths) {
+		plugins.push(await loadModule<Plugin>(workspaceRoot, pluginOrPath, tsConfig))
+	}
 
 	return plugins.flat()
 }
