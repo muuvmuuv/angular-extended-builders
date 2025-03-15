@@ -1,0 +1,15 @@
+{
+	"version": 1,
+	"cli": {
+		"packageManager": "pnpm",
+		"analytics": false
+	},
+	"projects": {
+		"$package_name": {
+			"root": ".",
+			"sourceRoot": "src",
+			"projectType": "library",
+			"architect": {}
+		}
+	}
+}
