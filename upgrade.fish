@@ -1,11 +1,12 @@
 #!/usr/bin/env fish
 
-set ANGULAR_VERSION "19.2.2"
+set ANGULAR_VERSION "^20.0.0-rc.2"
 
 cd projects/angular-extended-builder/
 pnpm ng update --allow-dirty --force @angular/cli@$ANGULAR_VERSION
 
 cd ../app/
+pnpm ng update --allow-dirty --force @angular/cli@$ANGULAR_VERSION
 pnpm ng update --allow-dirty --force @angular/core@$ANGULAR_VERSION
 
 cd ../../
@@ -14,5 +15,4 @@ set ts_version $(cat projects/angular-extended-builder/node_modules/@angular/bui
 pnpm update -r "typescript@$ts_version"
 
 pnpm update -r
-pnpm dedupe
 pnpm outdated -r

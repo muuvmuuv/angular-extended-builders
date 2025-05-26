@@ -3,7 +3,7 @@ import {
 	CSP_NONCE,
 	inject,
 	provideAppInitializer,
-	provideExperimentalZonelessChangeDetection,
+	provideZonelessChangeDetection,
 } from "@angular/core"
 import { bootstrapApplication } from "@angular/platform-browser"
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async"
@@ -22,7 +22,7 @@ bootstrapApplication(AppComponent, {
 			provide: CSP_NONCE,
 			useValue: NONCE,
 		},
-		provideExperimentalZonelessChangeDetection(),
+		provideZonelessChangeDetection(),
 		provideRouter(routes, withComponentInputBinding()),
 		provideAnimationsAsync(),
 		provideHttpClient(withFetch()),
