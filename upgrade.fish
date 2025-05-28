@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-set ANGULAR_VERSION "^20.0.0-rc.2"
+set ANGULAR_VERSION "^20.0.0"
 
 cd projects/angular-extended-builder/
 pnpm ng update --allow-dirty --force @angular/cli@$ANGULAR_VERSION

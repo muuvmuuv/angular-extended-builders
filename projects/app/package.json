@@ -10,11 +10,11 @@
 		"ng": "ng"
 	},
 	"dependencies": {
-		"@angular/animations": "20.0.0-rc.2",
-		"@angular/common": "20.0.0-rc.2",
-		"@angular/core": "20.0.0-rc.2",
-		"@angular/platform-browser": "20.0.0-rc.2",
-		"@angular/router": "20.0.0-rc.2",
+		"@angular/animations": "20.0.0",
+		"@angular/common": "20.0.0",
+		"@angular/core": "20.0.0",
+		"@angular/platform-browser": "20.0.0",
+		"@angular/router": "20.0.0",
 		"@apollo/client": "^3.13.8",
 		"@date-fns/utc": "^2.1.0",
 		"apollo-angular": "^10.0.3",
@@ -27,13 +27,13 @@
 		"type-fest": "^4.41.0"
 	},
 	"devDependencies": {
-		"@angular/cli": "20.0.0-rc.3",
+		"@angular/cli": "20.0.0",
 		"@graphql-codegen/add": "^5.0.3",
 		"@graphql-codegen/cli": "^5.0.6",
-		"@graphql-codegen/import-types-preset": "^3.0.0",
+		"@graphql-codegen/import-types-preset": "^3.0.1",
 		"@graphql-codegen/time": "^5.0.1",
 		"@graphql-codegen/typescript": "^4.1.6",
-		"@graphql-codegen/typescript-graphql-files-modules": "^3.0.0",
+		"@graphql-codegen/typescript-graphql-files-modules": "^3.0.1",
 		"@graphql-codegen/typescript-operations": "^4.6.1",
 		"angular-extended-builder": "workspace:*",
 		"graphql-tag": "^2.12.6",

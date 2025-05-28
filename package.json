@@ -16,19 +16,13 @@
 		"@biomejs/biome": "^1.9.4",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-angular": "^19.8.1",
-		"@types/node": "^22.15.21",
+		"@types/node": "^22.15.23",
 		"del-cli": "^6.0.0",
 		"lefthook": "^1.11.13",
 		"prettier": "^3.5.3",
 		"typescript": "5.8.2"
 	},
 	"engines": {
-		"node": ">=22"
-	},
-	"pnpm": {
-		"peerDependencyRules": {
-			"ignoreMissing": ["zone.js"],
-			"allowAny": ["zone.js"]
-		}
+		"node": ">=20.11.1"
 	}
 }
