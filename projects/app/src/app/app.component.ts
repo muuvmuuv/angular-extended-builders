@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, resource } from "@angular/core"
+import {
+	ChangeDetectionStrategy,
+	Component,
+	inject,
+	resource,
+} from "@angular/core"
 import { RouterOutlet } from "@angular/router"
 import { formatISO } from "date-fns"
 import { xxhash64 } from "hash-wasm"

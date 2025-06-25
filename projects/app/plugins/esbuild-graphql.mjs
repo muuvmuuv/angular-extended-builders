@@ -11,12 +11,15 @@ import gql from "graphql-tag"
 // run. For that reason, we temporarily serialize undefined, then swap it back
 // to the value of undefined.
 const generateDocumentNodeString = (graphqlDocument) => {
-	return JSON.stringify(graphqlDocument, (key, value) =>
+	return JSON.stringify(graphqlDocument, (_key, value) =>
 		value === undefined ? "__undefined" : value,
 	).replaceAll('"__undefined"', "undefined")
 }
 
-const generateDocumentNodeStringForOperationDefinition = (operationDefinition, fragments) => {
+const generateDocumentNodeStringForOperationDefinition = (
+	operationDefinition,
+	fragments,
+) => {
 	const operationDocument = {
 		kind: "Document",
 		definitions: [operationDefinition, ...fragments],
@@ -43,7 +46,10 @@ const collectAllFragmentReferences = (node, allFragments) => {
 	const handleSelectionNode = (selection) => {
 		if (selection.kind === "FragmentSpread") {
 			const fragment = allFragments[selection.name.value]
-			const innerFragmentReferences = collectAllFragmentReferences(fragment, allFragments)
+			const innerFragmentReferences = collectAllFragmentReferences(
+				fragment,
+				allFragments,
+			)
 			references.push(...innerFragmentReferences, selection.name.value)
 		}
 	}
@@ -80,7 +86,10 @@ export const generateContentsFromGraphqlString = (graphqlString) => {
 			) {
 				const name = definition.name.value
 
-				const fragmentsForOperation = collectAllFragmentReferences(definition, allFragments)
+				const fragmentsForOperation = collectAllFragmentReferences(
+					definition,
+					allFragments,
+				)
 
 				const fragments = fragmentsForOperation.map((fragmentForOperation) => {
 					const fragment = allFragments[fragmentForOperation]
@@ -94,10 +103,11 @@ export const generateContentsFromGraphqlString = (graphqlString) => {
 					return fragment
 				})
 
-				const operationDocumentString = generateDocumentNodeStringForOperationDefinition(
-					definition,
-					fragments,
-				)
+				const operationDocumentString =
+					generateDocumentNodeStringForOperationDefinition(
+						definition,
+						fragments,
+					)
 				accumulator.push(`export const ${name} = ${operationDocumentString};`)
 			}
 

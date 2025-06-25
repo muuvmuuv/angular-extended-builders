@@ -1,33 +1,47 @@
 {
+	"$schema": "https://json.schemastore.org/tsconfig",
 	"compileOnSave": false,
 	"compilerOptions": {
-		"outDir": "./dist",
 		"strict": true,
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
 		"noImplicitThis": true,
 		"noImplicitOverride": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
+		"noUncheckedSideEffectImports": true,
 		"forceConsistentCasingInFileNames": true,
-		"experimentalDecorators": true,
+		"useDefineForClassFields": false,
+		"allowSyntheticDefaultImports": true,
 		"strictPropertyInitialization": true,
+		"experimentalDecorators": true,
 		"strictNullChecks": true,
 		"isolatedModules": true,
-		"declaration": false,
-		"esModuleInterop": true,
+		"sourceMap": false,
+		"inlineSourceMap": false,
+		"allowJs": true,
+		"composite": false,
+		"declaration": true,
+		"declarationMap": true,
+		"incremental": true,
 		"resolveJsonModule": true,
-		"stripInternal": true,
+		"noEmitOnError": true,
 		"skipLibCheck": true,
 		"importHelpers": true,
 		"moduleResolution": "Bundler",
 		"module": "ES2022",
 		"target": "ES2022",
-		"lib": ["ES2022"],
-		"paths": {
-			"angular-extended-builder": ["./dist/angular-extended-builder"]
-		}
+		"lib": ["ES2022"]
 	},
-	"exclude": ["node_modules", "dist", "out-tsc"]
+	"angularCompilerOptions": {
+		"disableTypeScriptVersionCheck": true,
+		"enableResourceInlining": false,
+		"enableI18nLegacyMessageIdFormat": false,
+		"fullTemplateTypeCheck": true,
+		"strictInjectionParameters": true,
+		"strictInputAccessModifiers": true,
+		"strictTemplates": true,
+		"extendedDiagnostics": {
+			"defaultCategory": "error"
+		}
+	}
 }

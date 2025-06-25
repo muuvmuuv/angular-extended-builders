@@ -13,13 +13,13 @@
 		"format": "biome check --unsafe --write ."
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
+		"@biomejs/biome": "^2.0.5",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-angular": "^19.8.1",
-		"@types/node": "^22.15.23",
+		"@types/node": "^22.15.33",
 		"del-cli": "^6.0.0",
-		"lefthook": "^1.11.13",
-		"prettier": "^3.5.3",
+		"lefthook": "^1.11.14",
+		"prettier": "^3.6.1",
 		"typescript": "5.8.2"
 	},
 	"engines": {

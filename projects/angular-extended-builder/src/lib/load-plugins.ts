@@ -13,7 +13,9 @@ export async function loadPlugins(
 	const plugins: Plugin[] = []
 
 	for (const pluginOrPath of paths) {
-		plugins.push(await loadModule<Plugin>(workspaceRoot, pluginOrPath, tsConfig))
+		plugins.push(
+			await loadModule<Plugin>(workspaceRoot, pluginOrPath, tsConfig),
+		)
 	}
 
 	return plugins.flat()

@@ -1,5 +1,5 @@
 {
-	"$schema": "../angular-extended-builder/dist/schema.json",
+	"$schema": "./node_modules/angular-extended-builder/dist/schema.json",
 	"version": 1,
 	"newProjectRoot": "projects",
 	"projects": {
@@ -25,7 +25,10 @@
 						],
 						"styles": ["./src/styles.scss"],
 						"indexHtmlTransformer": "./plugins/index-html-transform.mjs",
-						"plugins": ["./plugins/esbuild-graphql.mjs", "./plugins/esbuild-define.mjs"]
+						"plugins": [
+							"./plugins/esbuild-graphql.mjs",
+							"./plugins/esbuild-define.mjs"
+						]
 					},
 					"configurations": {
 						"production": {

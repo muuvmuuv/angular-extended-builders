@@ -62,7 +62,8 @@ export async function loadModule<T>(
 				return require(resolvedModulePath).default
 			} catch (error) {
 				if ((error as NodeJS.ErrnoException).code === "ERR_REQUIRE_ESM") {
-					return (await loadEsmModule<{ default: T }>(resolvedModulePath)).default
+					return (await loadEsmModule<{ default: T }>(resolvedModulePath))
+						.default
 				}
 				throw error
 			}

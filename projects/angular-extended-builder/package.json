@@ -1,19 +1,44 @@
 {
 	"name": "angular-extended-builder",
-	"version": "20.0.0",
+	"version": "20.0.3",
 	"description": "Angular extended builders with custom options for esbuild and Vite",
 	"license": "MIT",
-	"main": "dist/index.js",
 	"builders": "builders.json",
-	"files": ["dist/", "builders.json"],
-	"keywords": ["angular", "angular-builder", "builder", "esbuild", "vite"],
+	"keywords": [
+		"angular",
+		"angular-builder",
+		"builder",
+		"esbuild",
+		"vite"
+	],
 	"scripts": {
 		"watch": "tsc --watch",
 		"prebuild": "del-cli dist/",
-		"build": "tsc",
+		"build": "tsc -p tsconfig.prod.json",
 		"postbuild": "node schemes.mjs",
 		"prepublish": "pnpm build",
+		"release": "ng build && cd dist && npm publish",
 		"ng": "ng"
+	},
+	"type": "commonjs",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"typings": "./dist/index.d.ts",
+	"exports": {
+		"./package.json": "./package.json",
+		"./schema.json": "./dist/schema.json",
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./application": {
+			"types": "./dist/lib/application/index.d.ts",
+			"default": "./dist/lib/application/index.js"
+		},
+		"./dev-server": {
+			"types": "./dist/lib/dev-server/index.d.ts",
+			"default": "./dist/lib/dev-server/index.js"
+		}
 	},
 	"dependencies": {
 		"ts-node": "^10.9.2",
@@ -21,11 +46,15 @@
 		"tslib": "^2.8.1"
 	},
 	"peerDependencies": {
-		"@angular-devkit/architect": "0.2000.0",
-		"@angular-devkit/core": "20.0.0",
-		"@angular/build": "20.0.0",
-		"@angular/cli": "20.0.0",
-		"rxjs": "^7.8.1",
+		"@angular-devkit/architect": "^0.2000.0",
+		"@angular-devkit/build-angular": "^20.0.0",
+		"@angular-devkit/core": "^20.0.0",
+		"@angular/build": "^20.0.0",
+		"@angular/cli": "^20.0.0",
+		"rxjs": "^7.8.1"
+	},
+	"devDependencies": {
+		"ng-packagr": "^20.0.1",
 		"typescript": "5.8.2"
 	},
 	"contributors": [

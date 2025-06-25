@@ -1,19 +1,6 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"lib": ["DOM", "ES2022"]
-	},
-	"angularCompilerOptions": {
-		"disableTypeScriptVersionCheck": true,
-		"enableResourceInlining": false,
-		"enableI18nLegacyMessageIdFormat": false,
-		"fullTemplateTypeCheck": true,
-		"strictStandalone": true,
-		"strictInjectionParameters": true,
-		"strictInputAccessModifiers": true,
-		"strictTemplates": true,
-		"extendedDiagnostics": {
-			"defaultCategory": "error"
-		}
+		"lib": ["ES2022", "DOM"]
 	}
 }

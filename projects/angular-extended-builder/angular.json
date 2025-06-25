@@ -5,37 +5,28 @@
 		"analytics": false
 	},
 	"projects": {
-		"$package_name": {
-			"root": ".",
-			"sourceRoot": "src",
+		"angular-extended-builder": {
 			"projectType": "library",
-			"architect": {}
-		}
-	},
-	"schematics": {
-		"@schematics/angular:component": {
-			"type": "component"
-		},
-		"@schematics/angular:directive": {
-			"type": "directive"
-		},
-		"@schematics/angular:service": {
-			"type": "service"
-		},
-		"@schematics/angular:guard": {
-			"typeSeparator": "."
-		},
-		"@schematics/angular:interceptor": {
-			"typeSeparator": "."
-		},
-		"@schematics/angular:module": {
-			"typeSeparator": "."
-		},
-		"@schematics/angular:pipe": {
-			"typeSeparator": "."
-		},
-		"@schematics/angular:resolver": {
-			"typeSeparator": "."
+			"root": "./",
+			"sourceRoot": "./src",
+			"prefix": "lib",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:ng-packagr",
+					"options": {
+						"project": "./ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "./tsconfig.prod.json"
+						},
+						"development": {
+							"tsConfig": "./tsconfig.json"
+						}
+					},
+					"defaultConfiguration": "production"
+				}
+			}
 		}
 	}
 }

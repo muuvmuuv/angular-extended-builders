@@ -2,13 +2,13 @@
 	"$schema": "./node_modules/@angular-devkit/architect/src/builders-schema.json",
 	"builders": {
 		"application": {
-			"implementation": "./dist/application",
-			"schema": "./dist/application/schema.json",
+			"implementation": "./dist/lib/application",
+			"schema": "./dist/lib/application/schema.json",
 			"description": "Run application builder with extended options"
 		},
 		"dev-server": {
-			"implementation": "./dist/dev-server",
-			"schema": "./dist/dev-server/schema.json",
+			"implementation": "./dist/lib/dev-server",
+			"schema": "./dist/lib/dev-server/schema.json",
 			"description": "Run dev-server builder with extended options"
 		}
 	}

@@ -2,7 +2,10 @@ import { Injectable, inject } from "@angular/core"
 import { Apollo } from "apollo-angular"
 import { map } from "rxjs/operators"
 
-import type { CompanyQuery, CompanyQueryVariables } from "./generated-spacex.interface"
+import type {
+	CompanyQuery,
+	CompanyQueryVariables,
+} from "./generated-spacex.interface"
 import QueryCompany from "./queries/company.graphql"
 
 @Injectable({

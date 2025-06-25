@@ -1,21 +1,24 @@
 import path from "node:path"
 import {
+	type DevServerBuilderOutput,
+	executeDevServerBuilder,
+} from "@angular/build"
+import type { IndexHtmlTransform } from "@angular/build/private"
+import {
 	type BuilderContext,
 	createBuilder,
 	targetFromTargetString,
 } from "@angular-devkit/architect"
 import { getSystemPath, type json, normalize } from "@angular-devkit/core"
-import { type DevServerBuilderOutput, executeDevServerBuilder } from "@angular/build"
-import type { IndexHtmlTransform } from "@angular/build/private"
-import { type Observable, from, switchMap } from "rxjs"
+import { from, type Observable, switchMap } from "rxjs"
 
-import { loadModule } from "../load-module.js"
-import { loadPlugins } from "../load-plugins.js"
 import type {
 	ExtendedDevServerBuilderOptions,
 	ResolvedExtendedDevServerBuilderOptions,
-} from "../schema.js"
-import type { Middleware } from "./types.js"
+} from "../../schema"
+import { loadModule } from "../load-module"
+import { loadPlugins } from "../load-plugins"
+import type { Middleware } from "./types"
 
 // Path where Angular loads Vite for reference:
 // https://github.com/angular/angular-cli/blob/main/packages/angular/build/src/builders/dev-server/vite-server.ts#L183
@@ -43,10 +46,16 @@ function executeBuilder(
 
 			// Keep middleware order
 			for (const middlewarePath of options.middlewares ?? []) {
-				middleware.push(await loadModule<Middleware>(workspaceRoot, middlewarePath, tsConfig))
+				middleware.push(
+					await loadModule<Middleware>(workspaceRoot, middlewarePath, tsConfig),
+				)
 			}
 
-			const buildPlugins = await loadPlugins(buildOptions.plugins, workspaceRoot, tsConfig)
+			const buildPlugins = await loadPlugins(
+				buildOptions.plugins,
+				workspaceRoot,
+				tsConfig,
+			)
 
 			const indexHtmlTransformer = buildOptions.indexHtmlTransformer
 				? await loadModule<IndexHtmlTransform>(
