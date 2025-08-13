@@ -1,0 +1,14 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"composite": true,
+		"outDir": "./dist/tsc",
+		"lib": ["ES2022"]
+	},
+	"references": [
+		{
+			"path": "./tsconfig.lib.json"
+		}
+	]
+}

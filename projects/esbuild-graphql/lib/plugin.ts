@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/suspicious/noExplicitAny: it is imported */
+
 import fs from "node:fs"
 
 import gql from "graphql-tag"
@@ -10,15 +12,15 @@ import gql from "graphql-tag"
 // Definitions can be undefined, which will get stripped when JSON.stringify is
 // run. For that reason, we temporarily serialize undefined, then swap it back
 // to the value of undefined.
-const generateDocumentNodeString = (graphqlDocument) => {
+const generateDocumentNodeString = (graphqlDocument: object) => {
 	return JSON.stringify(graphqlDocument, (_key, value) =>
 		value === undefined ? "__undefined" : value,
 	).replaceAll('"__undefined"', "undefined")
 }
 
 const generateDocumentNodeStringForOperationDefinition = (
-	operationDefinition,
-	fragments,
+	operationDefinition: object,
+	fragments: object[],
 ) => {
 	const operationDocument = {
 		kind: "Document",
@@ -28,8 +30,8 @@ const generateDocumentNodeStringForOperationDefinition = (
 	return generateDocumentNodeString(operationDocument)
 }
 
-const collectAllFragmentDefinitions = (documentNode) => {
-	const accumulator = {}
+const collectAllFragmentDefinitions = (documentNode: any) => {
+	const accumulator: any = {}
 
 	for (const node of documentNode.definitions) {
 		if (node.kind === "FragmentDefinition") {
@@ -40,10 +42,10 @@ const collectAllFragmentDefinitions = (documentNode) => {
 	return accumulator
 }
 
-const collectAllFragmentReferences = (node, allFragments) => {
-	const references = []
+const collectAllFragmentReferences = (node: any, allFragments: any) => {
+	const references: any = []
 
-	const handleSelectionNode = (selection) => {
+	const handleSelectionNode = (selection: any) => {
 		if (selection.kind === "FragmentSpread") {
 			const fragment = allFragments[selection.name.value]
 			const innerFragmentReferences = collectAllFragmentReferences(
@@ -71,7 +73,7 @@ const collectAllFragmentReferences = (node, allFragments) => {
 	return references
 }
 
-export const generateContentsFromGraphqlString = (graphqlString) => {
+export const generateContentsFromGraphqlString = (graphqlString: any) => {
 	const graphqlDocument = gql(graphqlString)
 	const documentNodeAsString = generateDocumentNodeString(graphqlDocument)
 	const allFragments = collectAllFragmentDefinitions(graphqlDocument)
@@ -91,17 +93,19 @@ export const generateContentsFromGraphqlString = (graphqlString) => {
 					allFragments,
 				)
 
-				const fragments = fragmentsForOperation.map((fragmentForOperation) => {
-					const fragment = allFragments[fragmentForOperation]
+				const fragments = fragmentsForOperation.map(
+					(fragmentForOperation: any) => {
+						const fragment = allFragments[fragmentForOperation]
 
-					if (!fragment) {
-						throw new Error(
-							`Expected to find fragment definition for ${fragmentForOperation}`,
-						)
-					}
+						if (!fragment) {
+							throw new Error(
+								`Expected to find fragment definition for ${fragmentForOperation}`,
+							)
+						}
 
-					return fragment
-				})
+						return fragment
+					},
+				)
 
 				const operationDocumentString =
 					generateDocumentNodeStringForOperationDefinition(
@@ -124,12 +128,12 @@ export const generateContentsFromGraphqlString = (graphqlString) => {
 /** @type {import('esbuild').Plugin} */
 export default {
 	name: "app-graphql",
-	setup(build) {
+	setup(build: any) {
 		build.onLoad(
 			{
 				filter: /\.graphql$|\.gql$/,
 			},
-			async (arguments_) => {
+			async (arguments_: any) => {
 				const buffer = await fs.promises.readFile(arguments_.path)
 				const graphqlString = buffer.toString()
 

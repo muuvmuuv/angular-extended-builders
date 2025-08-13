@@ -1,0 +1,12 @@
+{
+	"name": "@project/esbuild-graphql",
+	"version": "0.1.0",
+	"private": true,
+	"main": "./lib/plugin.ts",
+	"exports": {
+		".": "./lib/plugin.ts"
+	},
+	"dependencies": {
+		"graphql-tag": "^2.12.6"
+	}
+}
