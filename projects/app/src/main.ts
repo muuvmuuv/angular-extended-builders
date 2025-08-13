@@ -12,9 +12,9 @@ import { InMemoryCache } from "@apollo/client/cache"
 import { provideApollo } from "apollo-angular"
 import { HttpLink } from "apollo-angular/http"
 
+import { routes } from "@/app/routes"
 import { AppComponent } from "./app/app.component"
 import { environment } from "./environments/environment"
-import { routes } from "./routes"
 
 bootstrapApplication(AppComponent, {
 	providers: [

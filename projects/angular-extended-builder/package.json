@@ -1,6 +1,6 @@
 {
 	"name": "angular-extended-builder",
-	"version": "20.1.1",
+	"version": "20.1.2",
 	"description": "Angular extended builders with custom options for esbuild and Vite",
 	"license": "MIT",
 	"builders": "builders.json",
@@ -24,22 +24,22 @@
 	"types": "./dist/index.d.ts",
 	"typings": "./dist/index.d.ts",
 	"dependencies": {
-		"tsx": "^4.20.0",
-		"tslib": "^2.8.1"
+		"tslib": "^2.8.1",
+		"tsx": "^4.20.4"
 	},
 	"peerDependencies": {
-		"@angular-devkit/architect": "^0.2001.5",
-		"@angular-devkit/build-angular": "^20.1.5",
-		"@angular-devkit/core": "^20.1.5",
-		"@angular/build": "^20.1.5",
-		"@angular/cli": "^20.1.5",
+		"@angular-devkit/architect": "^0.2001.6",
+		"@angular-devkit/build-angular": "^20.1.6",
+		"@angular-devkit/core": "^20.1.6",
+		"@angular/build": "^20.1.6",
+		"@angular/cli": "^20.1.6",
 		"rxjs": "^7.8.1"
 	},
 	"devDependencies": {
 		"@angular/compiler": "^20.1.6",
 		"@angular/compiler-cli": "^20.1.6",
 		"ng-packagr": "^20.1.0",
-		"typescript": "5.6.3"
+		"typescript": "5.8.3"
 	},
 	"contributors": [
 		{

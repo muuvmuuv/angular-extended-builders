@@ -1,18 +1,38 @@
 #!/usr/bin/env fish
 
-set ANGULAR_VERSION "^20.0.0"
+# Get the latest Angular major version from the library's package.json
+set ANGULAR_VERSION "^20.1.0"
 
-cd projects/angular-extended-builder/
-pnpm ng update --allow-dirty --force @angular/cli@$ANGULAR_VERSION
+echo "🚀 Starting Angular upgrade process ..."
 
-cd ../app/
-pnpm ng update --allow-dirty --force @angular/cli@$ANGULAR_VERSION
-pnpm ng update --allow-dirty --force @angular/core@$ANGULAR_VERSION
+# Update Angular CLI and core packages in library using workspace commands
+echo "📦 Updating library Angular packages ..."
+pnpm --filter=angular-extended-builder exec ng update --allow-dirty --force @angular/cli@$ANGULAR_VERSION
 
-cd ../../
+# Update Angular packages in the demo app using workspace commands
+echo "📦 Updating app Angular packages ..."
+pnpm --filter=app exec ng update --allow-dirty --force @angular/cli@$ANGULAR_VERSION
+pnpm --filter=app exec ng update --allow-dirty --force @angular/core@$ANGULAR_VERSION
 
+# Get TypeScript version requirement from Angular
+echo "🔍 Detecting TypeScript version requirement..."
 set ts_version $(cat projects/angular-extended-builder/node_modules/@angular/build/package.json | jq '.peerDependencies.typescript' | xargs)
-pnpm update -r "typescript@$ts_version"
 
+echo "📦 Setting TypeScript to version '$ts_version' ..."
+pnpm add -Dw "typescript@$ts_version"
+pnpm --filter=angular-extended-builder add -D "typescript@$ts_version"
+pnpm --filter=app add -D "typescript@$ts_version"
+
+# Update all packages recursively
+echo "📦 Updating all packages recursively ..."
 pnpm update -r
+
+# Install to resolve peer dependencies
+echo "📦 Installing dependencies ..."
+pnpm install
+
+# Show outdated packages
+echo "📋 Checking for outdated packages ..."
 pnpm outdated -r
+
+echo "✅ Upgrade process completed!"

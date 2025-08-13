@@ -4,7 +4,8 @@
       "WebFetch(domain:github.com)",
       "Bash(git commit:*)",
       "Bash(git add:*)",
-      "Bash(pnpm build:*)"
+      "Bash(pnpm build:*)",
+      "WebFetch(domain:tsx.is)"
     ],
     "deny": []
   }

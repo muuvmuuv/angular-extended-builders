@@ -1,6 +1,21 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"lib": ["ES2022", "DOM"]
-	}
+		"baseUrl": ".",
+		"composite": true,
+		"outDir": "./dist/tsc",
+		"lib": ["ES2022", "DOM"],
+		"paths": {
+			"@/app/*": ["./src/*"],
+			"@/plugins/*": ["./plugins/*"]
+		}
+	},
+	"references": [
+		{
+			"path": "./tsconfig.editor.json"
+		},
+		{
+			"path": "./tsconfig.app.json"
+		}
+	]
 }

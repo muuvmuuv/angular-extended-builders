@@ -27,7 +27,7 @@
 						"indexHtmlTransformer": "./plugins/index-html-transform.mjs",
 						"plugins": [
 							"./plugins/esbuild-graphql.mjs",
-							"./plugins/esbuild-define.mjs"
+							"@/plugins/esbuild-define"
 						]
 					},
 					"configurations": {
