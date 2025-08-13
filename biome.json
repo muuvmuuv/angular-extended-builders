@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
 	"root": true,
 	"vcs": {
 		"enabled": true,
@@ -7,7 +7,28 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"includes": ["**", "!**/node_modules/", "!**/dist/"]
+		"includes": [
+			"*.json",
+			"*.jsonc",
+			"*.mjs",
+			"*.ts",
+			"*.tsx",
+			"*.js",
+			"*.jsx",
+			"*.css",
+			"projects/**/*.json",
+			"projects/**/*.jsonc",
+			"projects/**/*.mjs",
+			"projects/**/*.ts",
+			"projects/**/*.tsx",
+			"projects/**/*.js",
+			"projects/**/*.jsx",
+			"projects/**/*.css",
+			"projects/**/*.graphql",
+			"!**/node_modules/**",
+			"!**/dist/**",
+			"!**/.angular/**"
+		]
 	},
 	"assist": {
 		"actions": {

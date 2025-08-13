@@ -35,16 +35,13 @@ Consider analyzing their implementation when:
 - `pnpm lint` - Run Biome linter on entire codebase
 - `pnpm format` - Run Biome formatter with auto-fix
 
-### Angular Extended Builder package (`projects/angular-extended-builder/`)
-- `pnpm watch` - Watch TypeScript files and rebuild on changes
-- `pnpm build` - Build the package (runs TypeScript compilation and schema generation)
-- `pnpm release` - Build and publish the package to npm
-- `ng build` - Build using ng-packagr
+### Workspace-specific commands
+Run commands in specific workspace projects using `pnpm --filter`:
+- `pnpm --filter=angular-extended-builder <command>` - Run command in builder package
+- `pnpm --filter=app <command>` - Run command in demo app
+- `pnpm --filter=app graphql` - Generate GraphQL types in demo app
 
-### Demo App (`projects/app/`)
-- `ng build` - Build the app using the custom builder
-- `ng serve` - Serve the app with development server
-- `pnpm graphql` - Generate GraphQL types using graphql-codegen
+**Important**: Always run `lint` and `format` from the root directory as they operate on the entire workspace. No need to `cd` into individual project directories - use pnpm workspace filtering instead.
 
 ## Architecture
 
@@ -89,11 +86,19 @@ To use this builder in an Angular project:
 
 ## Development Notes
 
-- This is a pnpm workspace with Node.js 20+ requirement
+- This is a pnpm workspace with Node.js 22+ requirement (managed by Proto)
 - Uses Biome for linting/formatting instead of ESLint/Prettier
-- TypeScript 5.8.2 with strict configuration
+- TypeScript version is automatically synced with Angular's requirements via upgrade.fish
 - Follows Angular's versioning (major.minor matches Angular version)
 - The main package uses CommonJS output while plugins use ESM
+
+### Binary Management
+
+This project uses [Proto](https://moonrepo.dev/proto) (.prototools) to manage binary versions:
+- **Node.js**: ^22 (managed by Proto)
+- **pnpm**: ^10 (managed by Proto)
+
+**Important**: When updating dependencies, be careful not to accidentally update `@types/node` to versions incompatible with the Node.js version specified in .prototools. The upgrade scripts should respect the Node.js version constraint.
 
 ## Deep Architecture Insights
 

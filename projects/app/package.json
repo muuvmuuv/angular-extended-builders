@@ -10,13 +10,13 @@
 		"ng": "ng"
 	},
 	"dependencies": {
-		"@angular/animations": "20.0.4",
-		"@angular/common": "20.0.4",
-		"@angular/core": "20.0.4",
-		"@angular/platform-browser": "20.0.4",
-		"@angular/router": "20.0.4",
-		"@apollo/client": "^3.13.8",
-		"@date-fns/utc": "^2.1.0",
+		"@angular/animations": "20.1.6",
+		"@angular/common": "20.1.6",
+		"@angular/core": "20.1.6",
+		"@angular/platform-browser": "20.1.6",
+		"@angular/router": "20.1.6",
+		"@apollo/client": "^3.13.9",
+		"@date-fns/utc": "^2.1.1",
 		"apollo-angular": "^11.0.0",
 		"date-fns": "^4.1.0",
 		"graphql": "^16.11.0",
@@ -27,7 +27,7 @@
 		"type-fest": "^4.41.0"
 	},
 	"devDependencies": {
-		"@angular/cli": "20.0.3",
+		"@angular/cli": "20.1.5",
 		"@graphql-codegen/add": "^5.0.3",
 		"@graphql-codegen/cli": "^5.0.7",
 		"@graphql-codegen/import-types-preset": "^3.0.1",
@@ -38,6 +38,6 @@
 		"angular-extended-builder": "workspace:*",
 		"graphql-tag": "^2.12.6",
 		"html-minifier-terser": "^7.2.0",
-		"typescript": "5.8.2"
+		"typescript": "5.6.3"
 	}
 }
