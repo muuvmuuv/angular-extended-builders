@@ -1,35 +1,34 @@
 import { extname, join } from "node:path"
-import { pathToFileURL } from "node:url"
+import tsxCjs from "tsx/cjs/api"
+import tsxEsm from "tsx/esm/api"
 
-import { loadEsmModule } from "./load-esm"
+/**
+ * Because the CommonJS API tracks loaded modules in require.cache, you can use it to
+ * identify loaded files for dependency tracking. This can be useful when implementing a watcher.
+ * @see https://tsx.is/dev-api/tsx-require#tracking-loaded-files
+ * @param module
+ * @returns
+ */
+// biome-ignore lint/suspicious/noExplicitAny: module is any type of module
+const collectDependencies = (module: any) => [
+	module.filename,
+	...module.children.flatMap(collectDependencies),
+]
 
-let tsRegistered = false
-
-async function tsxRegister(tsConfig: string) {
-	if (tsRegistered) {
-		return
-	}
-
-	tsRegistered = true
-
-	// Use tsx for TypeScript ESM support
-	const tsx = await import("tsx/esm/api")
-	tsx.register({
-		tsconfig: tsConfig,
-		namespace: Buffer.from(tsConfig, "base64").toString("utf8"),
-		onImport: (file) => {
-			console.log("Import file:", file)
-		},
-	})
-}
-
+/**
+ * More future proof implementation to load any kind of module by using dynamic
+ * enhanced tsx import/require APIs.
+ * @see https://tsx.is/dev-api/
+ * @param projectRoot
+ * @param modulePath
+ * @param tsConfigPath
+ * @returns
+ */
 export async function loadModule<T>(
 	projectRoot: string,
 	modulePath: string,
-	tsConfig: string,
+	tsConfigPath: string,
 ): Promise<T> {
-	await tsxRegister(tsConfig)
-
 	let resolvedModulePath = modulePath
 
 	// Handle relative paths
@@ -38,37 +37,61 @@ export async function loadModule<T>(
 		resolvedModulePath = join(projectRoot, resolvedModulePath)
 	}
 
-	console.log("Load module:", resolvedModulePath)
+	console.info("Load module:", resolvedModulePath)
+
+	/**
+	 * Setup and try importing ESM.
+	 * @see https://tsx.is/dev-api/ts-import
+	 */
+	async function importEsm() {
+		const mod = await tsxEsm.tsImport(resolvedModulePath, {
+			parentURL: projectRoot,
+			tsconfig: tsConfigPath,
+			onImport: (file) => {
+				console.debug("Import esm:", file)
+			},
+		})
+		return mod.default ?? mod
+	}
+
+	/**
+	 * Setup and try importing CommonJS.
+	 * @see https://tsx.is/dev-api/tsx-require
+	 */
+	function requireCjs() {
+		const mod = tsxCjs.require(resolvedModulePath, projectRoot)
+		const modPath = tsxCjs.require.resolve(resolvedModulePath, projectRoot)
+		console.debug(
+			"Import cjs:",
+			collectDependencies(tsxCjs.require.cache[modPath]),
+		)
+		return mod.default ?? mod
+	}
+
+	// Handle resolved module path by file extension for faster resolving
+	// using the proper importer.
 
 	switch (extname(resolvedModulePath)) {
+		case ".ts":
 		case ".mjs":
-			// Load the ESM configuration file using the TypeScript dynamic import workaround.
-			// Once TypeScript provides support for keeping the dynamic import this workaround can be
-			// changed to a direct dynamic import.
-			return (
-				await loadEsmModule<{ default: T }>(pathToFileURL(resolvedModulePath))
-			).default
+			// Load ESM and TypeScript files directly using ESM.
+			return await importEsm()
 		case ".cjs":
-			return require(resolvedModulePath)
+			// CommonJS can be required like before
+			return requireCjs()
 		default:
 			// The file could be either CommonJS or ESM.
-			// CommonJS is tried first then ESM if loading fails.
+			// First try modern ESM import, then fallback to old CommonJS.
 			try {
-				return (
-					require(resolvedModulePath).default || require(resolvedModulePath)
-				)
-			} catch (e) {
-				if (
-					(e as NodeJS.ErrnoException).code === "ERR_REQUIRE_ESM" ||
-					(e as NodeJS.ErrnoException).code === "MODULE_NOT_FOUND"
-				) {
-					// Load the ESM configuration file using the TypeScript dynamic import workaround.
-					// Once TypeScript provides support for keeping the dynamic import this workaround can be
-					// changed to a direct dynamic import.
-					return (await loadEsmModule<{ default: T }>(resolvedModulePath))
-						.default
+				return await importEsm()
+			} catch (_error) {
+				const error = _error as NodeJS.ErrnoException
+				console.warn("Failed to import", error.code)
+				if (error.code === "ERR_MODULE_NOT_FOUND") {
+					console.info("Trying cjs import")
+					return requireCjs()
 				}
-				throw e
+				throw _error
 			}
 	}
 }
