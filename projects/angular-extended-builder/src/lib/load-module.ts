@@ -2,37 +2,19 @@ import path from "node:path"
 
 import { loadEsmModule } from "./load-esm"
 
-let lastTsConfig: string | undefined
+let tsxRegistered = false
 
-async function tsNodeRegister(tsConfig: string) {
-	if (lastTsConfig) {
+async function tsxRegister(tsConfig: string) {
+	if (tsxRegistered) {
 		return
 	}
 
-	lastTsConfig = tsConfig
+	tsxRegistered = true
 
-	const tsNode = await import("ts-node")
-	tsNode.register({
-		project: tsConfig,
-		compilerOptions: {
-			module: "CommonJS",
-			moduleResolution: "Node",
-			target: "ES2020",
-			noCheck: true,
-			esModuleInterop: true,
-			allowSyntheticDefaultImports: true,
-			resolveJsonModule: true,
-			types: ["node"],
-		},
+	const tsx = await import("tsx/esm/api")
+	tsx.register({
+		tsconfig: tsConfig,
 	})
-
-	// Thanks to https://github.com/just-jeb/angular-builders/blob/master/packages/common/src/load-module.ts#L31C47-L40C6
-	const tsPaths = await import("tsconfig-paths")
-	const result = tsPaths.loadConfig(tsConfig)
-	if (result.resultType === "success") {
-		const { absoluteBaseUrl: baseUrl, paths } = result
-		tsPaths.register({ baseUrl, paths })
-	}
 }
 
 export async function loadModule<T>(
@@ -40,7 +22,7 @@ export async function loadModule<T>(
 	modulePath: string,
 	tsConfig: string,
 ): Promise<T> {
-	await tsNodeRegister(tsConfig)
+	await tsxRegister(tsConfig)
 
 	// Possible module import
 	let resolvedModulePath = modulePath

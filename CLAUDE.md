@@ -43,6 +43,61 @@ Run commands in specific workspace projects using `pnpm --filter`:
 
 **Important**: Always run `lint` and `format` from the root directory as they operate on the entire workspace. No need to `cd` into individual project directories - use pnpm workspace filtering instead.
 
+## Release Process
+
+This package follows Angular's versioning scheme (major.minor matches Angular version) and uses a manual release workflow:
+
+### 1. Version Management
+- **Versioning**: Follows Angular's version (e.g., `20.0.3` for Angular 20)
+- **Location**: Version is defined in `projects/angular-extended-builder/package.json`
+- **Alignment**: Keep major.minor versions aligned with supported Angular version
+
+### 2. Pre-release Checklist
+Before creating a release:
+1. **Update dependencies** if needed (especially Angular peer dependencies)
+2. **Run full test suite**:
+   ```bash
+   pnpm build        # Build the library
+   pnpm build-app    # Test with demo app
+   pnpm lint         # Check code quality
+   pnpm format       # Ensure formatting
+   ```
+3. **Update version** in `projects/angular-extended-builder/package.json`
+4. **Test the built package** works in a real Angular project
+
+### 3. Publishing
+The package uses a two-step release process:
+
+```bash
+# From the angular-extended-builder project directory
+cd projects/angular-extended-builder
+pnpm release
+```
+
+This executes the `release` script which:
+1. **Builds the package**: `ng build` (uses ng-packagr to create dist/)
+2. **Publishes to npm**: `cd dist && npm publish`
+
+The built package in `dist/` contains:
+- Compiled CommonJS output (`dist/index.js`)
+- TypeScript declarations (`dist/index.d.ts`)
+- Generated JSON schema (`dist/schema.json`)
+- Package metadata (`dist/package.json`)
+
+### 4. Post-release
+After publishing:
+1. **Tag the release** in git with version number
+2. **Create GitHub release** with changelog
+3. **Update documentation** if API changes were made
+4. **Test installation** in a fresh Angular project
+
+### 5. Release Notes
+When creating releases, document:
+- **New features** and builder enhancements
+- **Breaking changes** and migration guides
+- **Bug fixes** and performance improvements
+- **Dependency updates** (especially Angular version support)
+
 ## Architecture
 
 This monorepo contains an Angular builder extension package that provides enhanced functionality for Angular's build system, particularly around esbuild plugins and HTML transformations.
@@ -146,9 +201,10 @@ The dev-server retrieves build target options and merges them with dev-server sp
 ### Module Loading System
 
 The `load-module.ts` file handles dynamic loading of ESM modules with TypeScript support:
-- Uses `ts-node` for on-the-fly TypeScript compilation
-- Configures `tsconfig-paths` for path resolution
+- Uses `tsx` for fast TypeScript compilation via esbuild
+- Built-in TypeScript path resolution support
 - Supports both `.mjs` and `.ts` plugin files
+- Optimized for performance with minimal configuration overhead
 
 ### Plugin Examples from Demo App
 
