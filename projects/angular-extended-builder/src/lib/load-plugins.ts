@@ -1,3 +1,4 @@
+import { performance } from "node:perf_hooks"
 import { debug } from "./debug"
 import { loadModule } from "./load-module"
 import type { Plugin } from "./plugin"
@@ -28,21 +29,21 @@ export async function loadPlugins(
 	}
 
 	debug.info(`Loading ${paths.length} plugin(s) in parallel...`)
-	debug.time("Plugin loading")
+	const loadingStartTime = performance.now()
 
 	// Load all plugins in parallel for better performance
 	const pluginPromises = paths.map(
 		async (pluginOrPath): Promise<PluginLoadResult> => {
 			debug.debug(`Starting load: ${pluginOrPath}`)
 			try {
-				const startTime = Date.now()
+				const startTime = performance.now()
 				const plugin = await loadModule<Plugin>(
 					workspaceRoot,
 					pluginOrPath,
 					tsConfig,
 				)
-				const loadTime = Date.now() - startTime
-				debug.debug(`Loaded plugin: ${pluginOrPath} (${loadTime}ms)`)
+				const loadTime = performance.now() - startTime
+				debug.debug(`Loaded plugin: ${pluginOrPath} (${loadTime.toFixed(2)}ms)`)
 				return { success: true, plugin, path: pluginOrPath, loadTime }
 			} catch (error) {
 				debug.error(`Failed to load plugin: ${pluginOrPath}`, error)
@@ -67,7 +68,8 @@ export async function loadPlugins(
 	}
 
 	const flatPlugins = successfulPlugins.flat()
-	debug.timeEnd("Plugin loading")
+	const totalLoadTime = performance.now() - loadingStartTime
+	debug.debug(`Plugin loading completed in ${totalLoadTime.toFixed(2)}ms`)
 
 	// Report results
 	if (failed.length > 0) {

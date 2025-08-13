@@ -105,14 +105,4 @@ export const debug = {
 			`${prefix} ${colors.dim}[trace:${label}]${colors.reset}\n${formatted}`,
 		)
 	},
-
-	time: (label: string) => {
-		if (!shouldLog(LogLevel.DEBUG)) return
-		console.time(`${colors.cyan}${PREFIX}${colors.reset} ${label}`)
-	},
-
-	timeEnd: (label: string) => {
-		if (!shouldLog(LogLevel.DEBUG)) return
-		console.timeEnd(`${colors.cyan}${PREFIX}${colors.reset} ${label}`)
-	},
 }

@@ -1,4 +1,5 @@
 import path from "node:path"
+import { performance } from "node:perf_hooks"
 import {
 	type ApplicationBuilderExtensions,
 	buildApplication,
@@ -29,7 +30,7 @@ function executeBuilder(
 	})
 
 	return defer(async (): Promise<ApplicationBuilderExtensions> => {
-		debug.time("Application builder setup")
+		const setupStartTime = performance.now()
 
 		// Get project metadata to determine project root
 		const projectName = context.target?.project
@@ -66,7 +67,11 @@ function executeBuilder(
 			}
 		}
 
-		debug.timeEnd("Application builder setup")
+		const setupDuration = performance.now() - setupStartTime
+		debug.debug(
+			`Application builder setup completed in ${setupDuration.toFixed(2)}ms`,
+		)
+
 		debug.trace("Extensions loaded", {
 			plugins: codePlugins.length,
 			hasHtmlTransformer: !!indexHtmlTransformer,

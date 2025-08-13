@@ -1,4 +1,5 @@
 import path from "node:path"
+import { performance } from "node:perf_hooks"
 import {
 	type DevServerBuilderOutput,
 	executeDevServerBuilder,
@@ -54,7 +55,7 @@ function executeBuilder(
 		]),
 	).pipe(
 		switchMap(async ([buildOptions, projectMetadata]) => {
-			debug.time("Dev server setup")
+			const setupStartTime = performance.now()
 
 			const projectRoot = projectMetadata?.root
 				? path.join(workspaceRoot, projectMetadata.root.toString())
@@ -116,7 +117,9 @@ function executeBuilder(
 				}
 			}
 
-			debug.timeEnd("Dev server setup")
+			const setupDuration = performance.now() - setupStartTime
+			debug.debug(`Dev server setup completed in ${setupDuration.toFixed(2)}ms`)
+
 			debug.trace("Extensions loaded", {
 				middleware: middleware.length,
 				plugins: buildPlugins.length,

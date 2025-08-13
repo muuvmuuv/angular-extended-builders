@@ -45,13 +45,15 @@ export async function loadModule<T>(
 	 * @see https://tsx.is/dev-api/ts-import
 	 */
 	async function importEsm() {
+		const fileStack: string[] = []
 		const mod = await tsxEsm.tsImport(resolvedModulePath, {
 			parentURL: projectRoot,
 			tsconfig: tsConfigPath,
 			onImport: (file) => {
-				debug.trace("Import esm", file)
+				fileStack.push(file)
 			},
 		})
+		debug.trace("Import esm", fileStack)
 		return mod.default ?? mod
 	}
 
