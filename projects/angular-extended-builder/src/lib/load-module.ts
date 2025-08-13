@@ -1,6 +1,7 @@
 import { extname, join } from "node:path"
 import tsxCjs from "tsx/cjs/api"
 import tsxEsm from "tsx/esm/api"
+import { debug } from "./debug"
 
 /**
  * Because the CommonJS API tracks loaded modules in require.cache, you can use it to
@@ -37,7 +38,7 @@ export async function loadModule<T>(
 		resolvedModulePath = join(projectRoot, resolvedModulePath)
 	}
 
-	console.info("Load module:", resolvedModulePath)
+	debug.info("Load module:", resolvedModulePath)
 
 	/**
 	 * Setup and try importing ESM.
@@ -48,7 +49,7 @@ export async function loadModule<T>(
 			parentURL: projectRoot,
 			tsconfig: tsConfigPath,
 			onImport: (file) => {
-				console.debug("Import esm:", file)
+				debug.trace("Import esm", file)
 			},
 		})
 		return mod.default ?? mod
@@ -61,8 +62,8 @@ export async function loadModule<T>(
 	function requireCjs() {
 		const mod = tsxCjs.require(resolvedModulePath, projectRoot)
 		const modPath = tsxCjs.require.resolve(resolvedModulePath, projectRoot)
-		console.debug(
-			"Import cjs:",
+		debug.trace(
+			"Import cjs",
 			collectDependencies(tsxCjs.require.cache[modPath]),
 		)
 		return mod.default ?? mod
@@ -86,9 +87,9 @@ export async function loadModule<T>(
 				return await importEsm()
 			} catch (_error) {
 				const error = _error as NodeJS.ErrnoException
-				console.warn("Failed to import", error.code)
+				debug.debug("Failed to import", error.code)
 				if (error.code === "ERR_MODULE_NOT_FOUND") {
-					console.info("Trying cjs import")
+					debug.debug("Trying cjs import")
 					return requireCjs()
 				}
 				throw _error

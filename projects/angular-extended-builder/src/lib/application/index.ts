@@ -9,6 +9,7 @@ import { getSystemPath, type json, normalize } from "@angular-devkit/core"
 import { defer, switchMap } from "rxjs"
 
 import type { ExtendedApplicationBuilderOptions } from "../../schema"
+import { debug } from "../debug"
 import { loadModule } from "../load-module"
 import { loadPlugins } from "../load-plugins"
 
@@ -19,7 +20,17 @@ function executeBuilder(
 	const workspaceRoot = getSystemPath(normalize(context.workspaceRoot))
 	const tsConfig = path.join(workspaceRoot, options.tsConfig)
 
+	debug.info("Starting Angular Extended Application Builder")
+	debug.trace("Builder options", {
+		workspaceRoot,
+		tsConfig,
+		plugins: options.plugins?.length || 0,
+		indexHtmlTransformer: !!options.indexHtmlTransformer,
+	})
+
 	return defer(async (): Promise<ApplicationBuilderExtensions> => {
+		debug.time("Application builder setup")
+
 		// Get project metadata to determine project root
 		const projectName = context.target?.project
 		const projectMetadata = projectName
@@ -28,23 +39,44 @@ function executeBuilder(
 		const projectRoot = projectMetadata?.root
 			? path.join(workspaceRoot, projectMetadata.root.toString())
 			: workspaceRoot
+
+		debug.debug(`Project root: ${projectRoot}`)
 		const codePlugins = await loadPlugins(
 			options.plugins,
 			projectRoot,
 			tsConfig,
 		)
 
-		const indexHtmlTransformer = options.indexHtmlTransformer
-			? await loadModule<IndexHtmlTransform>(
+		let indexHtmlTransformer: IndexHtmlTransform | undefined
+		if (options.indexHtmlTransformer) {
+			debug.debug(`Loading HTML transformer: ${options.indexHtmlTransformer}`)
+			try {
+				indexHtmlTransformer = await loadModule<IndexHtmlTransform>(
 					projectRoot,
 					options.indexHtmlTransformer,
 					tsConfig,
 				)
-			: undefined
+				debug.debug(`Loaded HTML transformer: ${options.indexHtmlTransformer}`)
+			} catch (error) {
+				debug.error(
+					`Failed to load HTML transformer: ${options.indexHtmlTransformer}`,
+					error,
+				)
+				throw error
+			}
+		}
+
+		debug.timeEnd("Application builder setup")
+		debug.trace("Extensions loaded", {
+			plugins: codePlugins.length,
+			hasHtmlTransformer: !!indexHtmlTransformer,
+		})
 
 		return { codePlugins, indexHtmlTransformer }
 	}).pipe(
 		switchMap((extensions) => {
+			debug.debug("Executing Angular build with extensions")
+			console.log() // create visual spacing
 			return buildApplication(options, context, extensions)
 		}),
 	)

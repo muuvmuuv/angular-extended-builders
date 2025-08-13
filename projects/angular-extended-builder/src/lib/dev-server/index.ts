@@ -16,6 +16,7 @@ import type {
 	ExtendedDevServerBuilderOptions,
 	ResolvedExtendedDevServerBuilderOptions,
 } from "../../schema"
+import { debug } from "../debug"
 import { loadModule } from "../load-module"
 import { loadPlugins } from "../load-plugins"
 import type { Middleware } from "./types"
@@ -33,6 +34,13 @@ function executeBuilder(
 	const buildTarget = targetFromTargetString(options.buildTarget)
 	const workspaceRoot = getSystemPath(normalize(context.workspaceRoot))
 
+	debug.info("Starting Angular Extended Dev Server Builder")
+	debug.trace("Dev server options", {
+		workspaceRoot,
+		buildTarget: options.buildTarget,
+		middlewares: options.middlewares?.length || 0,
+	})
+
 	return from(
 		Promise.all([
 			// This will combine all options from the executed and build target
@@ -46,18 +54,39 @@ function executeBuilder(
 		]),
 	).pipe(
 		switchMap(async ([buildOptions, projectMetadata]) => {
+			debug.time("Dev server setup")
+
 			const projectRoot = projectMetadata?.root
 				? path.join(workspaceRoot, projectMetadata.root.toString())
 				: workspaceRoot
 			const tsConfig = path.join(workspaceRoot, buildOptions.tsConfig)
 
+			debug.debug(`Project root: ${projectRoot}`)
+			debug.trace("Build options from target", {
+				plugins: buildOptions.plugins?.length || 0,
+				indexHtmlTransformer: buildOptions.indexHtmlTransformer,
+			})
+
 			const middleware: Middleware[] = []
 
 			// Keep middleware order
-			for (const middlewarePath of options.middlewares ?? []) {
-				middleware.push(
-					await loadModule<Middleware>(projectRoot, middlewarePath, tsConfig),
-				)
+			if (options.middlewares?.length) {
+				debug.info(`Loading ${options.middlewares.length} middleware(s)...`)
+				for (const middlewarePath of options.middlewares) {
+					debug.debug(`Loading middleware: ${middlewarePath}`)
+					try {
+						const mw = await loadModule<Middleware>(
+							projectRoot,
+							middlewarePath,
+							tsConfig,
+						)
+						middleware.push(mw)
+						debug.debug(`Loaded middleware: ${middlewarePath}`)
+					} catch (error) {
+						debug.error(`Failed to load middleware: ${middlewarePath}`, error)
+						throw error
+					}
+				}
 			}
 
 			const buildPlugins = await loadPlugins(
@@ -66,18 +95,40 @@ function executeBuilder(
 				tsConfig,
 			)
 
-			const indexHtmlTransformer = buildOptions.indexHtmlTransformer
-				? await loadModule<IndexHtmlTransform>(
+			let indexHtmlTransformer: IndexHtmlTransform | undefined
+			if (buildOptions.indexHtmlTransformer) {
+				debug.info("Loading HTML transformer...")
+				try {
+					indexHtmlTransformer = await loadModule<IndexHtmlTransform>(
 						projectRoot,
 						buildOptions.indexHtmlTransformer,
 						tsConfig,
 					)
-				: undefined
+					debug.debug(
+						`Loaded HTML transformer: ${buildOptions.indexHtmlTransformer}`,
+					)
+				} catch (error) {
+					debug.error(
+						`Failed to load HTML transformer: ${buildOptions.indexHtmlTransformer}`,
+						error,
+					)
+					throw error
+				}
+			}
+
+			debug.timeEnd("Dev server setup")
+			debug.trace("Extensions loaded", {
+				middleware: middleware.length,
+				plugins: buildPlugins.length,
+				hasHtmlTransformer: !!indexHtmlTransformer,
+			})
 
 			return { middleware, buildPlugins, indexHtmlTransformer }
 		}),
 		// TODO: add proper extensions types once release by Angular/build
 		switchMap((extensions) => {
+			debug.debug("Executing Angular dev server with extensions")
+			console.log() // create visual spacing
 			return executeDevServerBuilder(options, context, extensions)
 		}),
 	)
