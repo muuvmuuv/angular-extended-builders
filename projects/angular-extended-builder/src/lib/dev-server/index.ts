@@ -34,12 +34,21 @@ function executeBuilder(
 	const workspaceRoot = getSystemPath(normalize(context.workspaceRoot))
 
 	return from(
-		// This will combine all options from the executed and build target
-		context.getTargetOptions(
-			buildTarget,
-		) as unknown as Promise<ResolvedExtendedDevServerBuilderOptions>,
+		Promise.all([
+			// This will combine all options from the executed and build target
+			context.getTargetOptions(
+				buildTarget,
+			) as unknown as Promise<ResolvedExtendedDevServerBuilderOptions>,
+			// Get project metadata
+			buildTarget.project
+				? context.getProjectMetadata(buildTarget.project)
+				: Promise.resolve(null),
+		]),
 	).pipe(
-		switchMap(async (buildOptions) => {
+		switchMap(async ([buildOptions, projectMetadata]) => {
+			const projectRoot = projectMetadata?.root
+				? path.join(workspaceRoot, projectMetadata.root.toString())
+				: workspaceRoot
 			const tsConfig = path.join(workspaceRoot, buildOptions.tsConfig)
 
 			const middleware: Middleware[] = []
@@ -47,19 +56,19 @@ function executeBuilder(
 			// Keep middleware order
 			for (const middlewarePath of options.middlewares ?? []) {
 				middleware.push(
-					await loadModule<Middleware>(workspaceRoot, middlewarePath, tsConfig),
+					await loadModule<Middleware>(projectRoot, middlewarePath, tsConfig),
 				)
 			}
 
 			const buildPlugins = await loadPlugins(
 				buildOptions.plugins,
-				workspaceRoot,
+				projectRoot,
 				tsConfig,
 			)
 
 			const indexHtmlTransformer = buildOptions.indexHtmlTransformer
 				? await loadModule<IndexHtmlTransform>(
-						workspaceRoot,
+						projectRoot,
 						buildOptions.indexHtmlTransformer,
 						tsConfig,
 					)

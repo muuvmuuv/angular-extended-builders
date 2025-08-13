@@ -20,15 +20,23 @@ function executeBuilder(
 	const tsConfig = path.join(workspaceRoot, options.tsConfig)
 
 	return defer(async (): Promise<ApplicationBuilderExtensions> => {
+		// Get project metadata to determine project root
+		const projectName = context.target?.project
+		const projectMetadata = projectName
+			? await context.getProjectMetadata(projectName)
+			: null
+		const projectRoot = projectMetadata?.root
+			? path.join(workspaceRoot, projectMetadata.root.toString())
+			: workspaceRoot
 		const codePlugins = await loadPlugins(
 			options.plugins,
-			workspaceRoot,
+			projectRoot,
 			tsConfig,
 		)
 
 		const indexHtmlTransformer = options.indexHtmlTransformer
 			? await loadModule<IndexHtmlTransform>(
-					workspaceRoot,
+					projectRoot,
 					options.indexHtmlTransformer,
 					tsConfig,
 				)
