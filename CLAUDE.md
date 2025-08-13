@@ -38,6 +38,15 @@ Consider analyzing their implementation when:
 - `pnpm lint` - Run Biome linter on entire codebase
 - `pnpm format` - Run Biome formatter with auto-fix
 
+### Testing Changes
+
+When testing changes to the angular-extended-builder library, always use the root scripts:
+
+1. **`pnpm build`** - Build the library first
+2. **`pnpm build-app`** - Test the build output with the demo app
+3. **`pnpm serve`** - Test dev server functionality
+4. **`pnpm watch`** - Watch for changes during development
+
 ### Workspace-specific commands
 
 Run commands in specific workspace projects using `pnpm --filter`:
