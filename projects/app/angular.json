@@ -25,10 +25,7 @@
 						],
 						"styles": ["./src/styles.scss"],
 						"indexHtmlTransformer": "./plugins/index-html-transform.mjs",
-						"plugins": [
-							"./plugins/esbuild-graphql.mjs",
-							"@/plugins/esbuild-define"
-						]
+						"plugins": ["@project/esbuild-graphql", "@/plugins/esbuild-define"]
 					},
 					"configurations": {
 						"production": {
