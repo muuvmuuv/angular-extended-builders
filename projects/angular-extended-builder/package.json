@@ -17,7 +17,6 @@
 		"build": "tsc -p tsconfig.prod.json",
 		"postbuild": "node schemes.mjs",
 		"prepublish": "pnpm build",
-		"release": "ng build && cd dist && npm publish",
 		"ng": "ng"
 	},
 	"type": "commonjs",
