@@ -16,6 +16,10 @@ async function tsxRegister(tsConfig: string) {
 	const tsx = await import("tsx/esm/api")
 	tsx.register({
 		tsconfig: tsConfig,
+		namespace: Buffer.from(tsConfig, "base64").toString("utf8"),
+		onImport: (file) => {
+			console.log("Import file:", file)
+		},
 	})
 }
 
@@ -34,20 +38,25 @@ export async function loadModule<T>(
 		resolvedModulePath = join(projectRoot, resolvedModulePath)
 	}
 
-	switch (extname(modulePath)) {
+	console.log("Load module:", resolvedModulePath)
+
+	switch (extname(resolvedModulePath)) {
 		case ".mjs":
 			// Load the ESM configuration file using the TypeScript dynamic import workaround.
 			// Once TypeScript provides support for keeping the dynamic import this workaround can be
 			// changed to a direct dynamic import.
-			return (await loadEsmModule<{ default: T }>(pathToFileURL(modulePath)))
-				.default
+			return (
+				await loadEsmModule<{ default: T }>(pathToFileURL(resolvedModulePath))
+			).default
 		case ".cjs":
-			return require(modulePath)
+			return require(resolvedModulePath)
 		default:
 			// The file could be either CommonJS or ESM.
 			// CommonJS is tried first then ESM if loading fails.
 			try {
-				return require(modulePath).default || require(modulePath)
+				return (
+					require(resolvedModulePath).default || require(resolvedModulePath)
+				)
 			} catch (e) {
 				if (
 					(e as NodeJS.ErrnoException).code === "ERR_REQUIRE_ESM" ||
@@ -56,7 +65,8 @@ export async function loadModule<T>(
 					// Load the ESM configuration file using the TypeScript dynamic import workaround.
 					// Once TypeScript provides support for keeping the dynamic import this workaround can be
 					// changed to a direct dynamic import.
-					return (await loadEsmModule<{ default: T }>(modulePath)).default
+					return (await loadEsmModule<{ default: T }>(resolvedModulePath))
+						.default
 				}
 				throw e
 			}
