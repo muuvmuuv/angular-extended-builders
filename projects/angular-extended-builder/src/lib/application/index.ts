@@ -81,7 +81,6 @@ function executeBuilder(
 	}).pipe(
 		switchMap((extensions) => {
 			debug.debug("Executing Angular build with extensions")
-			console.log() // create visual spacing
 			return buildApplication(options, context, extensions)
 		}),
 	)

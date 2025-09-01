@@ -131,7 +131,6 @@ function executeBuilder(
 		// TODO: add proper extensions types once release by Angular/build
 		switchMap((extensions) => {
 			debug.debug("Executing Angular dev server with extensions")
-			console.log() // create visual spacing
 			return executeDevServerBuilder(options, context, extensions)
 		}),
 	)
