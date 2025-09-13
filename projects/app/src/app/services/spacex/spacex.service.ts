@@ -19,6 +19,10 @@ export class SpaceXService {
 			.query<CompanyQuery, CompanyQueryVariables>({
 				query: QueryCompany,
 			})
-			.pipe(map((response) => response.data.company))
+			.pipe(
+				map((response) => {
+					return response.data?.company
+				}),
+			)
 	}
 }
