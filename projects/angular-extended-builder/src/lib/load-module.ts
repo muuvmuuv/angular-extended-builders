@@ -9,8 +9,8 @@ import { debug } from "./debug"
  *
  * @see https://tsx.is/dev-api/tsx-require#tracking-loaded-files
  */
-function collectDependencies(module?: NodeJS.Module): string[] {
-	if (!module) {
+function collectDependencies(module?: NodeJS.Module, depth = 4): string[] {
+	if (!module || depth <= 0) {
 		return []
 	}
 	const deps: string[] = []
@@ -18,7 +18,11 @@ function collectDependencies(module?: NodeJS.Module): string[] {
 		deps.push(module.filename)
 	}
 	if (module.children?.length > 0) {
-		deps.push(...module.children.flatMap(collectDependencies))
+		deps.push(
+			...module.children.flatMap((child) =>
+				collectDependencies(child, depth - 1),
+			),
+		)
 	}
 	return deps
 }
