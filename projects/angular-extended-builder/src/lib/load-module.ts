@@ -6,24 +6,32 @@ import { debug } from "./debug"
 /**
  * Because the CommonJS API tracks loaded modules in require.cache, you can use it to
  * identify loaded files for dependency tracking. This can be useful when implementing a watcher.
+ *
  * @see https://tsx.is/dev-api/tsx-require#tracking-loaded-files
- * @param module
- * @returns
  */
-// biome-ignore lint/suspicious/noExplicitAny: module is any type of module
-const collectDependencies = (module: any) => [
-	module.filename,
-	...module.children.flatMap(collectDependencies),
-]
+function collectDependencies(module?: NodeJS.Module): string[] {
+	if (!module) {
+		return []
+	}
+	const deps: string[] = []
+	if (module.filename) {
+		deps.push(module.filename)
+	}
+	if (module.children?.length > 0) {
+		deps.push(...module.children.flatMap(collectDependencies))
+	}
+	return deps
+}
 
 /**
  * More future proof implementation to load any kind of module by using dynamic
  * enhanced tsx import/require APIs.
+ *
  * @see https://tsx.is/dev-api/
+ *
  * @param projectRoot
  * @param modulePath
  * @param tsConfigPath
- * @returns
  */
 export async function loadModule<T>(
 	projectRoot: string,
