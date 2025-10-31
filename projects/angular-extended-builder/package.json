@@ -1,6 +1,6 @@
 {
 	"name": "angular-extended-builder",
-	"version": "20.3.10",
+	"version": "20.3.11",
 	"description": "Angular extended builders with custom options for esbuild and Vite",
 	"license": "MIT",
 	"builders": "builders.json",
