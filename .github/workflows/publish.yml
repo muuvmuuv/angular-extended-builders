@@ -16,7 +16,7 @@ jobs:
     environment: production
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4a
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -36,6 +36,10 @@ jobs:
       - name: Run check
         run: pnpm check
 
-      - name: Publish muuvmuuv package
+      - name: Build lib
+        working-directory: projects/angular-extended-builder
+        run: pnpm build
+
+      - name: Publish lib
         working-directory: projects/angular-extended-builder
         run: npm publish

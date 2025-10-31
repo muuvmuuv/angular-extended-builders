@@ -13,10 +13,7 @@
 	],
 	"scripts": {
 		"watch": "tsc --watch",
-		"prebuild": "del-cli dist/",
-		"build": "tsc -p tsconfig.prod.json",
-		"postbuild": "node schemes.mjs",
-		"prepublish": "pnpm build",
+		"build": "del-cli dist/ && tsc -p tsconfig.prod.json && node schemes.mjs",
 		"ng": "ng"
 	},
 	"type": "commonjs",
