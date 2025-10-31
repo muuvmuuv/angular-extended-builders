@@ -35,7 +35,7 @@ Consider analyzing their implementation when:
 - `pnpm build` - Build the angular-extended-builder package
 - `pnpm build-app` - Build the demo app
 - `pnpm serve` - Serve the demo app with hot reload
-- `pnpm lint` - Run Biome linter on entire codebase
+- `pnpm check` - Run Biome linter and formatter checks on entire codebase
 - `pnpm format` - Run Biome formatter with auto-fix
 
 ### Testing Changes
@@ -55,7 +55,7 @@ Run commands in specific workspace projects using `pnpm --filter`:
 - `pnpm --filter=app <command>` - Run command in demo app
 - `pnpm --filter=app graphql` - Generate GraphQL types in demo app
 
-**Important**: Always run `lint` and `format` from the root directory as they operate on the entire workspace. No need to `cd` into individual project directories - use pnpm workspace filtering instead.
+**Important**: Always run `check` and `format` from the root directory as they operate on the entire workspace. No need to `cd` into individual project directories - use pnpm workspace filtering instead.
 
 ## Release Process
 
@@ -76,8 +76,7 @@ Before creating a release:
    ```bash
    pnpm build        # Build the library
    pnpm build-app    # Test with demo app
-   pnpm lint         # Check code quality
-   pnpm format       # Ensure formatting
+   pnpm check        # Check code quality and formatting
    ```
 3. **Update version** in `projects/angular-extended-builder/package.json`
 4. **Test the built package** works in a real Angular project

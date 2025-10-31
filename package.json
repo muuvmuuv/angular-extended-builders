@@ -1,6 +1,6 @@
 {
 	"name": "angular-extended-builders-workspace",
-	"version": "0.0.0",
+	"version": "20.3.10",
 	"license": "MIT",
 	"type": "module",
 	"private": true,
@@ -9,18 +9,19 @@
 		"build": "pnpm --parallel --filter=!app build",
 		"build-app": "ANGULAR_EXTENDED_BUILDER=debug pnpm --filter=app build",
 		"serve": "pnpm --filter=app serve",
-		"lint": "biome check .",
-		"format": "biome check --unsafe --write .",
-		"release": "pnpm --filter=angular-extended-builder publish"
+		"check": "biome check .",
+		"format": "biome check --unsafe --write ."
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.2",
 		"@commitlint/cli": "^20.1.0",
 		"@commitlint/config-angular": "^20.0.0",
-		"@types/node": "^22.18.13",
-		"del-cli": "^6.0.0",
+		"@release-it/bumper": "^7.0.5",
+		"@types/node": "^24.9.2",
+		"del-cli": "^7.0.0",
 		"lefthook": "^2.0.2",
 		"prettier": "^3.6.2",
+		"release-it": "^19.0.5",
 		"typescript": "5.8.3"
 	},
 	"engines": {
