@@ -54,6 +54,7 @@ function executeBuilder(
 				: Promise.resolve(null),
 		]),
 	).pipe(
+		// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: idc
 		switchMap(async ([buildOptions, projectMetadata]) => {
 			const setupStartTime = performance.now()
 
@@ -69,13 +70,15 @@ function executeBuilder(
 			})
 
 			const middleware: Middleware[] = []
+			const middlewareLength = options.middlewares?.length ?? 0
 
 			// Keep middleware order
-			if (options.middlewares?.length) {
-				debug.info(`Loading ${options.middlewares.length} middleware(s)...`)
+			if (options.middlewares && middlewareLength > 0) {
+				debug.info(`Loading ${middlewareLength} middleware(s)...`)
 				for (const middlewarePath of options.middlewares) {
 					debug.debug(`Loading middleware: ${middlewarePath}`)
 					try {
+						// biome-ignore lint/performance/noAwaitInLoops: fine here really
 						const mw = await loadModule<Middleware>(
 							projectRoot,
 							middlewarePath,
@@ -123,7 +126,7 @@ function executeBuilder(
 			debug.trace("Extensions loaded", {
 				middleware: middleware.length,
 				plugins: buildPlugins.length,
-				hasHtmlTransformer: !!indexHtmlTransformer,
+				hasHtmlTransformer: Boolean(indexHtmlTransformer),
 			})
 
 			return { middleware, buildPlugins, indexHtmlTransformer }

@@ -1,39 +1,37 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.3.2/schema.json",
-	"root": true,
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
 		"useIgnoreFile": true
 	},
 	"files": {
+		"ignoreUnknown": true,
 		"includes": [
-			"*.json",
-			"*.jsonc",
-			"*.mjs",
-			"*.ts",
-			"*.tsx",
-			"*.js",
-			"*.jsx",
-			"*.css",
-			"projects/**/*.json",
-			"projects/**/*.jsonc",
-			"projects/**/*.mjs",
-			"projects/**/*.ts",
-			"projects/**/*.tsx",
-			"projects/**/*.js",
-			"projects/**/*.jsx",
-			"projects/**/*.css",
-			"projects/**/*.graphql",
-			"!**/node_modules",
-			"!**/dist",
-			"!**/.angular"
+			"**",
+			"!**/generated*",
+			"!**/*.html",
+			"!projects/esbuild-graphql/lib/graphql-impl.ts"
 		]
 	},
 	"assist": {
 		"actions": {
 			"source": {
-				"organizeImports": "on"
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							":URL:",
+							":NODE:",
+							":PACKAGE:",
+							":PACKAGE_WITH_PROTOCOL:",
+							":BLANK_LINE:",
+							":ALIAS:",
+							":BLANK_LINE:",
+							":PATH:"
+						]
+					}
+				}
 			}
 		}
 	},
@@ -43,30 +41,67 @@
 	},
 	"linter": {
 		"enabled": true,
+		"domains": {
+			"project": "none"
+		},
 		"rules": {
 			"recommended": true,
-			"style": {
-				"noParameterAssign": "error",
-				"useAsConstAssertion": "error",
-				"useDefaultParameterLast": "error",
-				"useEnumInitializers": "error",
-				"useSelfClosingElements": "error",
-				"useSingleVarDeclarator": "error",
-				"noUnusedTemplateLiteral": "error",
-				"useNumberNamespace": "error",
-				"noInferrableTypes": "error",
-				"noUselessElse": "error"
-			}
+			"a11y": "error",
+			"nursery": {
+				"recommended": true
+			},
+			"performance": "error",
+			"security": "error",
+			"style": "error",
+			"correctness": "error",
+			"complexity": "error",
+			"suspicious": "error"
 		}
 	},
 	"javascript": {
 		"formatter": {
 			"semicolons": "asNeeded"
-		}
+		},
+		"globals": ["BUILD_ENV", "BUILD_DATE", "APP_VERSION", "APP_HASH", "NONCE"]
 	},
 	"json": {
-		"formatter": {
-			"enabled": true
+		"formatter": { "enabled": true }
+	},
+	"overrides": [
+		{
+			"includes": ["**"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noDefaultExport": "off",
+						"useExportsLast": "off",
+						"useNamingConvention": "off"
+					},
+					"complexity": {
+						"noExcessiveLinesPerFunction": "off"
+					},
+					"security": {
+						"noSecrets": "off"
+					}
+				}
+			}
+		},
+		{
+			"includes": [
+				"projects/esbuild-graphql/**",
+				"projects/app/plugins/**",
+				"projects/angular-extended-builder/**"
+			],
+			"linter": {
+				"rules": {
+					"performance": {
+						"noNamespaceImport": "off"
+					},
+					"correctness": {
+						"noNodejsModules": "off"
+					}
+				}
+			}
 		}
-	}
+	]
 }

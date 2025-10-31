@@ -11,7 +11,7 @@ import QueryCompany from "./queries/company.graphql"
 @Injectable({
 	providedIn: "root",
 })
-export class SpaceXService {
+export class SpaceXsService {
 	readonly #apollo = inject(Apollo)
 
 	companyInfo() {

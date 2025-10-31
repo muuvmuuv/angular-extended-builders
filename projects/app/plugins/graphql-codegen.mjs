@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/style/noDefaultExport: default */
+
 /** @type {import('@graphql-codegen/cli').CodegenConfig} */
 export default {
 	config: {

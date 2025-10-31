@@ -1,3 +1,6 @@
+/** biome-ignore-all lint/style/noDefaultExport: required here */
+
+import process from "node:process"
 import { minify } from "html-minifier-terser"
 
 export default function indexTransformer(compiledHtml = "") {

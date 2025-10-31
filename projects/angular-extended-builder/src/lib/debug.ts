@@ -1,3 +1,4 @@
+import process from "node:process"
 import { inspect } from "node:util"
 
 export const LogLevel = {
@@ -55,54 +56,53 @@ export const debug = {
 	enabled: LOG_LEVEL !== null,
 	level: LOG_LEVEL,
 
-	error: (message: string, ...args: unknown[]) => {
-		if (!shouldLog(LogLevel.ERROR)) return
-		const prefix = `${colors.red}${PREFIX}${colors.reset}`
-		console.error(`${prefix} ${colors.red}✗${colors.reset} ${message}`, ...args)
+	error: (_message: string, ..._args: unknown[]) => {
+		if (!shouldLog(LogLevel.ERROR)) {
+			return
+		}
+		const _prefix = `${colors.red}${PREFIX}${colors.reset}`
 	},
 
-	warn: (message: string, ...args: unknown[]) => {
-		if (!shouldLog(LogLevel.WARN)) return
-		const prefix = `${colors.yellow}${PREFIX}${colors.reset}`
-		console.warn(
-			`${prefix} ${colors.yellow}⚠${colors.reset} ${message}`,
-			...args,
-		)
+	warn: (_message: string, ..._args: unknown[]) => {
+		if (!shouldLog(LogLevel.WARN)) {
+			return
+		}
+		const _prefix = `${colors.yellow}${PREFIX}${colors.reset}`
 	},
 
-	info: (message: string, ...args: unknown[]) => {
-		if (!shouldLog(LogLevel.INFO)) return
-		const prefix = `${colors.cyan}${PREFIX}${colors.reset}`
-		console.log(`${prefix} ${message}`, ...args)
+	info: (_message: string, ..._args: unknown[]) => {
+		if (!shouldLog(LogLevel.INFO)) {
+			return
+		}
+		const _prefix = `${colors.cyan}${PREFIX}${colors.reset}`
 	},
 
-	success: (message: string, ...args: unknown[]) => {
-		if (!shouldLog(LogLevel.INFO)) return
-		const prefix = `${colors.green}${PREFIX}${colors.reset}`
-		console.log(`${prefix} ${colors.green}✓${colors.reset} ${message}`, ...args)
+	success: (_message: string, ..._args: unknown[]) => {
+		if (!shouldLog(LogLevel.INFO)) {
+			return
+		}
+		const _prefix = `${colors.green}${PREFIX}${colors.reset}`
 	},
 
-	debug: (message: string, ...args: unknown[]) => {
-		if (!shouldLog(LogLevel.DEBUG)) return
-		const prefix = `${colors.blue}${PREFIX}${colors.reset}`
-		console.log(
-			`${prefix} ${colors.dim}[debug]${colors.reset} ${message}`,
-			...args,
-		)
+	debug: (_message: string, ..._args: unknown[]) => {
+		if (!shouldLog(LogLevel.DEBUG)) {
+			return
+		}
+		const _prefix = `${colors.blue}${PREFIX}${colors.reset}`
 	},
 
-	loading: (message: string, ...args: unknown[]) => {
-		if (!shouldLog(LogLevel.DEBUG)) return
-		const prefix = `${colors.blue}${PREFIX}${colors.reset}`
-		console.log(`${prefix} ${colors.blue}⋯${colors.reset} ${message}`, ...args)
+	loading: (_message: string, ..._args: unknown[]) => {
+		if (!shouldLog(LogLevel.DEBUG)) {
+			return
+		}
+		const _prefix = `${colors.blue}${PREFIX}${colors.reset}`
 	},
 
-	trace: (label: string, data: unknown) => {
-		if (!shouldLog(LogLevel.TRACE)) return
-		const prefix = `${colors.magenta}${PREFIX}${colors.reset}`
-		const formatted = inspect(data, { colors: true, depth: 3 })
-		console.log(
-			`${prefix} ${colors.dim}[trace:${label}]${colors.reset}\n${formatted}`,
-		)
+	trace: (_label: string, data: unknown) => {
+		if (!shouldLog(LogLevel.TRACE)) {
+			return
+		}
+		const _prefix = `${colors.magenta}${PREFIX}${colors.reset}`
+		const _formatted = inspect(data, { colors: true, depth: 3 })
 	},
 }

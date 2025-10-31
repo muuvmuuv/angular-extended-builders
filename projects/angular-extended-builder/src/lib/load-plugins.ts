@@ -1,4 +1,5 @@
 import { performance } from "node:perf_hooks"
+
 import { debug } from "./debug"
 import { loadModule } from "./load-module"
 import type { Plugin } from "./plugin"

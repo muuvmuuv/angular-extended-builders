@@ -10,7 +10,7 @@ import { xxhash64 } from "hash-wasm"
 import { nanoid } from "nanoid"
 import { firstValueFrom } from "rxjs"
 
-import { SpaceXService } from "./services/spacex/spacex.service"
+import { SpaceXsService } from "./services/spacex/spacex.service"
 
 @Component({
 	selector: "app-root",
@@ -20,7 +20,7 @@ import { SpaceXService } from "./services/spacex/spacex.service"
 	imports: [RouterOutlet],
 })
 export class AppComponent {
-	readonly spaceXService = inject(SpaceXService)
+	readonly spaceXsService = inject(SpaceXsService)
 
 	readonly uid = nanoid()
 	readonly now = formatISO(new Date())
@@ -34,7 +34,7 @@ export class AppComponent {
 	readonly buildDate = BUILD_DATE
 	readonly buildEnv = BUILD_ENV
 
-	readonly spaceXCompanyInfo = resource({
-		loader: () => firstValueFrom(this.spaceXService.companyInfo()),
+	readonly spaceXxCompanyInfo = resource({
+		loader: () => firstValueFrom(this.spaceXsService.companyInfo()),
 	})
 }

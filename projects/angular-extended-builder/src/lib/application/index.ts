@@ -26,7 +26,7 @@ function executeBuilder(
 		workspaceRoot,
 		tsConfig,
 		plugins: options.plugins?.length || 0,
-		indexHtmlTransformer: !!options.indexHtmlTransformer,
+		indexHtmlTransformer: Boolean(options.indexHtmlTransformer),
 	})
 
 	return defer(async (): Promise<ApplicationBuilderExtensions> => {
@@ -74,7 +74,7 @@ function executeBuilder(
 
 		debug.trace("Extensions loaded", {
 			plugins: codePlugins.length,
-			hasHtmlTransformer: !!indexHtmlTransformer,
+			hasHtmlTransformer: Boolean(indexHtmlTransformer),
 		})
 
 		return { codePlugins, indexHtmlTransformer }

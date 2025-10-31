@@ -2,17 +2,16 @@ import { provideHttpClient, withFetch } from "@angular/common/http"
 import {
 	CSP_NONCE,
 	inject,
-	provideAppInitializer,
 	provideZonelessChangeDetection,
 } from "@angular/core"
 import { bootstrapApplication } from "@angular/platform-browser"
-import { provideAnimationsAsync } from "@angular/platform-browser/animations/async"
 import { provideRouter, withComponentInputBinding } from "@angular/router"
 import { InMemoryCache } from "@apollo/client/cache"
 import { provideApollo } from "apollo-angular"
 import { HttpLink } from "apollo-angular/http"
 
 import { routes } from "@/app/routes"
+
 import { AppComponent } from "./app/app.component"
 import { environment } from "./environments/environment"
 
@@ -24,7 +23,6 @@ bootstrapApplication(AppComponent, {
 		},
 		provideZonelessChangeDetection(),
 		provideRouter(routes, withComponentInputBinding()),
-		provideAnimationsAsync(),
 		provideHttpClient(withFetch()),
 		provideApollo(() => {
 			const httpLink = inject(HttpLink)
@@ -40,10 +38,5 @@ bootstrapApplication(AppComponent, {
 				},
 			}
 		}),
-		provideAppInitializer(() => {
-			console.log("Initiated!")
-		}),
 	],
-}).catch((error) => {
-	console.error(error)
 })

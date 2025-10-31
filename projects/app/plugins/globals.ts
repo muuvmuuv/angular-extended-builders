@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/style/useNamingConvention: defines */
+
 import { UTCDateMini } from "@date-fns/utc"
 import { formatISO } from "date-fns"
 import { nanoid } from "nanoid"

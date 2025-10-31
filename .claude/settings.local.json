@@ -1,12 +1,12 @@
 {
-  "permissions": {
-    "allow": [
-      "WebFetch(domain:github.com)",
-      "Bash(git commit:*)",
-      "Bash(git add:*)",
-      "Bash(pnpm build:*)",
-      "WebFetch(domain:tsx.is)"
-    ],
-    "deny": []
-  }
+	"permissions": {
+		"allow": [
+			"WebFetch(domain:github.com)",
+			"Bash(git commit:*)",
+			"Bash(git add:*)",
+			"Bash(pnpm build:*)",
+			"WebFetch(domain:tsx.is)"
+		],
+		"deny": []
+	}
 }
