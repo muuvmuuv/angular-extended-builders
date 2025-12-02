@@ -9,6 +9,9 @@ export default {
 	name: "aqua-build-define",
 	setup: ({ initialOptions }) => {
 		for (const [key, value] of Object.entries(globals)) {
+			// biome-ignore lint/suspicious/noConsole: yers
+			console.debug(`> ${key}:`, value)
+
 			initialOptions.define ??= {} // happens
 			initialOptions.define[key] = JSON.stringify(value)
 
