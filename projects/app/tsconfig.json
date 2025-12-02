@@ -3,8 +3,9 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"composite": true,
+		"esModuleInterop": true,
+		"moduleResolution": "bundler",
 		"outDir": "./dist/tsc",
-		"lib": ["ES2022", "DOM"],
 		"paths": {
 			"@/app/*": ["./src/*"],
 			"@/plugins/*": ["./plugins/*"]

@@ -3,6 +3,7 @@
 	"compilerOptions": {
 		"outDir": "./dist",
 		"moduleResolution": "node16",
+		"esModuleInterop": true,
 		"module": "node16",
 		"declaration": true,
 		"declarationMap": true,
