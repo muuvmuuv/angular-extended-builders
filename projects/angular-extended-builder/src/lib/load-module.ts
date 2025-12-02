@@ -29,6 +29,22 @@ function collectDependencies(module?: NodeJS.Module, depth = 4): string[] {
 }
 
 /**
+ * Resolve default export from any imported module.
+ */
+// biome-ignore lint/suspicious/noExplicitAny: not typed
+function resolveDefaultExport(mod: any) {
+	try {
+		// Sometimes the prototype structure is kind of weird
+		// so we try different scenarios here.
+		return mod.default
+			? (mod.default.default ?? mod.default)
+			: (mod["module.exports"]?.default ?? mod)
+	} catch {
+		return mod
+	}
+}
+
+/**
  * More future proof implementation to load any kind of module by using dynamic
  * enhanced tsx import/require APIs.
  *
@@ -66,8 +82,9 @@ export async function loadModule<T>(
 				fileStack.push(file)
 			},
 		})
-		debug.trace("Import esm", fileStack)
-		return mod.default ?? mod
+		debug.trace("Module", mod)
+		debug.trace("Import map", fileStack)
+		return resolveDefaultExport(mod)
 	}
 
 	/**
@@ -77,11 +94,12 @@ export async function loadModule<T>(
 	function requireCjs() {
 		const mod = tsxCjs.require(resolvedModulePath, projectRoot)
 		const modPath = tsxCjs.require.resolve(resolvedModulePath, projectRoot)
+		debug.trace("Module", mod)
 		debug.trace(
-			"Import cjs",
+			"Import deps",
 			collectDependencies(tsxCjs.require.cache[modPath]),
 		)
-		return mod.default ?? mod
+		return resolveDefaultExport(mod)
 	}
 
 	// Handle resolved module path by file extension for faster resolving
