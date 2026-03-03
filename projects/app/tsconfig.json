@@ -6,6 +6,7 @@
 		"esModuleInterop": true,
 		"moduleResolution": "bundler",
 		"outDir": "./dist/tsc",
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"paths": {
 			"@/app/*": ["./src/*"],
 			"@/plugins/*": ["./plugins/*"]
