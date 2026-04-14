@@ -50,9 +50,8 @@ const colors = {
 
 const PREFIX = "[angular-extended-builder]"
 
-const shouldLog = (level: LogLevel): boolean => {
-	return LOG_LEVEL !== null && LOG_LEVEL >= level
-}
+const shouldLog = (level: LogLevel): boolean =>
+	LOG_LEVEL !== null && LOG_LEVEL >= level
 
 export const debug = {
 	enabled: LOG_LEVEL !== null,

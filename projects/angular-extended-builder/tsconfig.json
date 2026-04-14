@@ -1,6 +1,7 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
+		"rootDir": "./src",
 		"outDir": "./dist",
 		"moduleResolution": "node16",
 		"esModuleInterop": true,
@@ -10,6 +11,6 @@
 		"sourceMap": true,
 		"types": ["node"]
 	},
-	"include": ["src/**/*.ts"],
-	"exclude": ["src/**/*.spec.ts"]
+	"include": ["./src/**/*.ts"],
+	"exclude": ["./src/**/*.spec.ts"]
 }

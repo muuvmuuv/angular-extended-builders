@@ -4,5 +4,5 @@
 		"allowJs": true,
 		"types": ["node"]
 	},
-	"include": ["src/**/*.ts", "plugins/**/*.ts", "plugins/**/*.mjs"]
+	"include": ["./src/**/*.ts", "./plugins/**/*.ts", "./plugins/**/*.mjs"]
 }
