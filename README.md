@@ -4,9 +4,6 @@
 
 Custom Angular builders that extend `@angular/build` with support for esbuild plugins, index HTML transformers, and Vite dev-server middlewares.
 
-> [!CAUTION]
-> I use this project for my needs and my companies Angular projects, it does not guarantee to work with your project nor do I want to implement edge cases. Please refer to angular-builders if you need that type of stability.
-
 - [Installation](#installation)
 - [Builders](#builders)
 - [How to](#how-to)
