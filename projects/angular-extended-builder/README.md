@@ -2,47 +2,130 @@
 
 <!-- Intro section should stay in line with root readme -->
 
-> Package is forked/copied and heavily inspired by https://github.com/just-jeb/angular-builders
+> Forked/inspired by [angular-builders](https://github.com/just-jeb/angular-builders)
 
-I just build this package to provide/implement a more modern base for https://github.com/just-jeb/angular-builders and to extend it to my needs wherever I need to.
+Custom Angular builders that extend `@angular/build` with support for esbuild plugins, index HTML transformers, and Vite dev-server middlewares.
 
 > [!CAUTION]
 > I use this project for my needs and my companies Angular projects, it does not guarantee to work with your project nor do I want to implement edge cases. Please refer to angular-builders if you need that type of stability.
 
-- [Usage](#usage)
+- [Installation](#installation)
 - [Builders](#builders)
 - [How to](#how-to)
   - [Esbuild Plugins](#esbuild-plugins)
   - [Index HTML Transformer](#index-html-transformer)
-- [Versioning](#versioning)
+  - [Dev Server Middlewares](#dev-server-middlewares)
+- [Version Compatibility](#version-compatibility)
 
-## Usage
+## Installation
 
-1. Install library
-2. Replace `@angular/build` in `angular.json`'s build and serve with this library name
-3. Replace `$schema` with `./node_modules/angular-extended-builder/dist/schema.json`
-4. Run and customize
+```bash
+npm install angular-extended-builder --save-dev
+# or
+pnpm add -D angular-extended-builder
+```
+
+## Setup
+
+1. Update your `angular.json` to use the extended builders:
+
+```jsonc
+{
+	"$schema": "./node_modules/angular-extended-builder/dist/schema.json",
+	"projects": {
+		"my-app": {
+			"architect": {
+				"build": {
+					"builder": "angular-extended-builder:application",
+					"options": {
+						"plugins": ["./plugins/my-esbuild-plugin.ts"],
+						"indexHtmlTransformer": "./plugins/index-html-transform.mjs",
+						// ... your existing build options
+					},
+				},
+				"serve": {
+					"builder": "angular-extended-builder:dev-server",
+					"options": {
+						"middlewares": ["./plugins/my-middleware.ts"],
+					},
+				},
+			},
+		},
+	},
+}
+```
+
+2. The `$schema` path enables IDE autocomplete and validation for the extended options.
 
 ## Builders
 
-| Name        | Options                                      |
-| ----------- | -------------------------------------------- |
-| application | [schema.json](./src/application/schema.json) |
-| dev-server  | [schema.json](./src/dev-server/schema.json)  |
+| Name        | Extended Options                                 |
+| ----------- | ------------------------------------------------ |
+| application | [schema.json](./src/lib/application/schema.json) |
+| dev-server  | [schema.json](./src/lib/dev-server/schema.json)  |
 
 ## How to
 
 ### Esbuild Plugins
 
-Add a `plugins` section in your _angular.json_ at `projects.<>.architect.build.options` and add an array of relative file paths to your ESM esbuild Plugins. Examples can be found here: https://github.com/muuvmuuv/angular-extended-builders/tree/main/projects/app/plugins
+Add a `plugins` array in your `angular.json` at `projects.<name>.architect.build.options`. Each entry is a path to an ESM/TypeScript module that exports an esbuild plugin:
 
-- Define plugin to define environment variables
-- Graphql compatible Angular plugin to load your .gql files
+```typescript
+// plugins/my-plugin.ts
+import type { Plugin } from "esbuild"
+
+export default {
+	name: "my-plugin",
+	setup(build) {
+		build.onResolve({ filter: /\.custom$/ }, (args) => {
+			return { path: args.path, namespace: "custom" }
+		})
+	},
+} satisfies Plugin
+```
+
+Plugins can also be referenced as npm package names.
+
+Examples: [projects/app/plugins](https://github.com/muuvmuuv/angular-extended-builders/tree/main/projects/app/plugins)
 
 ### Index HTML Transformer
 
-Add a `indexHtmlTransformer` section in your _angular.json_ at `projects.<>.architect.build.options` and add the relative file path to your ESM script. An example can be found here: https://github.com/muuvmuuv/angular-extended-builders/tree/main/projects/app
+Add an `indexHtmlTransformer` path in your `angular.json` at `projects.<name>.architect.build.options`. The module should export a default function that receives the HTML string and returns a transformed HTML string:
 
-## Versioning
+```javascript
+// plugins/index-html-transform.mjs
+export default function transform(html) {
+	return html.replace("{placeholder}", "value")
+}
+```
 
-The major and minor version of this library will always be aligned with the supported Angular version to provide better type compatibility of underlying peer dependencies. Publishing fixes and patches will only effect the libs patch identifier. Major and minor releases will only be available once a Angular version has been published. During next, rc and beta releases, an additional number will be prepended instead.
+Example: [projects/app/plugins/index-html-transform.mjs](https://github.com/muuvmuuv/angular-extended-builders/tree/main/projects/app/plugins/index-html-transform.mjs)
+
+### Dev Server Middlewares
+
+Add a `middlewares` array in your `angular.json` at `projects.<name>.architect.serve.options`. Each entry is a path to a module that exports a Vite-compatible middleware function:
+
+```typescript
+// plugins/my-middleware.ts
+import type { IncomingMessage, ServerResponse } from "node:http"
+
+export default function middleware(
+	req: IncomingMessage,
+	res: ServerResponse,
+	next: (err?: unknown) => void,
+) {
+	// Handle request or call next()
+	next()
+}
+```
+
+## Version Compatibility
+
+The major and minor version of this library aligns with the supported Angular version:
+
+| angular-extended-builder | Angular | Node.js |
+| ------------------------ | ------- | ------- |
+| 21.x                     | 21.x    | >= 22   |
+| 20.x                     | 20.x    | >= 20   |
+
+Patch releases contain bug fixes and enhancements only. Major and minor releases follow Angular's release cycle.

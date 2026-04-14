@@ -33,10 +33,10 @@ Consider analyzing their implementation when:
 
 - `pnpm watch` - Watch and build the angular-extended-builder package
 - `pnpm build` - Build the angular-extended-builder package
-- `pnpm build-app` - Build the demo app
+- `pnpm build-app` - Build the demo app (with debug logging enabled)
 - `pnpm serve` - Serve the demo app with hot reload
-- `pnpm check` - Run Biome linter and formatter checks on entire codebase
-- `pnpm format` - Run Biome formatter with auto-fix
+- `pnpm check` - Run oxlint and oxfmt checks on entire codebase
+- `pnpm format` - Run oxlint --fix and oxfmt to auto-fix
 
 ### Testing Changes
 
@@ -57,13 +57,27 @@ Run commands in specific workspace projects using `pnpm --filter`:
 
 **Important**: Always run `check` and `format` from the root directory as they operate on the entire workspace. No need to `cd` into individual project directories - use pnpm workspace filtering instead.
 
+### Debug Logging
+
+Set the `ANGULAR_EXTENDED_BUILDER` environment variable to control log verbosity:
+
+- `error` - Errors only
+- `warn` - Errors and warnings
+- `info` - Default level (errors, warnings, info)
+- `debug` - Includes debug messages and performance metrics
+- `trace` - Maximum verbosity with full data inspection
+
+Example: `ANGULAR_EXTENDED_BUILDER=debug pnpm build-app`
+
+The `pnpm build-app` script already sets this to `debug` automatically.
+
 ## Release Process
 
 This package follows Angular's versioning scheme (major.minor matches Angular version) and uses a manual release workflow:
 
 ### 1. Version Management
 
-- **Versioning**: Follows Angular's version (e.g., `20.0.3` for Angular 20)
+- **Versioning**: Follows Angular's version (e.g., `21.0.2` for Angular 21)
 - **Location**: Version is defined in `projects/angular-extended-builder/package.json`
 - **Alignment**: Keep major.minor versions aligned with supported Angular version
 
@@ -122,10 +136,14 @@ This monorepo contains an Angular builder extension package that provides enhanc
 2. **Demo Application** (`projects/app/`)
    - Example Angular app showcasing the builder features
    - Contains example esbuild plugins in `plugins/` directory:
-     - `esbuild-define.mjs` - Define environment variables
-     - `esbuild-graphql.mjs` - Load GraphQL files
+     - `esbuild-define.ts` - Define environment variables
      - `index-html-transform.mjs` - Transform index.html
-   - Uses GraphQL with Apollo Client for SpaceX API integration
+   - Uses GraphQL with Apollo Client for Rick and Morty API integration
+
+3. **esbuild GraphQL Plugin** (`projects/esbuild-graphql/`)
+   - Standalone workspace package (`@project/esbuild-graphql`)
+   - esbuild plugin that loads `.graphql`/`.gql` files as JavaScript modules
+   - Parses GraphQL documents and generates exports for each operation
 
 ### Builder Extension System
 
@@ -153,20 +171,38 @@ To use this builder in an Angular project:
 
 ## Development Notes
 
-- This is a pnpm workspace with Node.js 22+ requirement (managed by Proto)
-- Uses Biome for linting/formatting instead of ESLint/Prettier
-- TypeScript version is automatically synced with Angular's requirements via upgrade.fish
+- This is a pnpm workspace with Node.js 24+ requirement (managed by Proto)
+- Uses [Oxc](https://oxc.rs/) toolchain for linting (oxlint) and formatting (oxfmt) instead of ESLint/Prettier
+- TypeScript version is automatically synced with Angular's requirements via `upgrade.fish`
 - Follows Angular's versioning (major.minor matches Angular version)
 - The main package uses CommonJS output while plugins use ESM
+- Commit messages follow the [Angular commit convention](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format), enforced by commitlint via lefthook pre-commit hooks
 
 ### Binary Management
 
 This project uses [Proto](https://moonrepo.dev/proto) (.prototools) to manage binary versions:
 
-- **Node.js**: ^22 (managed by Proto)
-- **pnpm**: ^10 (managed by Proto)
+- **Node.js**: ^24.11.0 (managed by Proto)
+- **pnpm**: ^10.20.0 (managed by Proto)
 
 **Important**: When updating dependencies, be careful not to accidentally update `@types/node` to versions incompatible with the Node.js version specified in .prototools. The upgrade scripts should respect the Node.js version constraint.
+
+### Git Hooks (lefthook)
+
+Pre-commit hooks run automatically:
+
+- **oxlint**: Lints staged JS/TS files
+- **oxfmt**: Checks formatting of staged files
+- **commitlint**: Validates commit messages against the Angular convention
+
+### Upgrading Angular
+
+The `upgrade.fish` script automates Angular version upgrades:
+
+1. Updates `@angular/cli` in both the builder and demo app
+2. Updates `@angular/core` in the demo app
+3. Syncs TypeScript version to match Angular's peer dependency
+4. Runs `pnpm update -r` and `pnpm outdated -r`
 
 ## Deep Architecture Insights
 
@@ -227,7 +263,7 @@ The `load-module.ts` file handles dynamic loading of ESM modules with TypeScript
 
 ### Plugin Examples from Demo App
 
-1. **esbuild-define.mjs**: Injects build-time constants
+1. **esbuild-define.ts**: Injects build-time constants
    - BUILD_ENV, BUILD_DATE, APP_VERSION, APP_HASH, NONCE
    - Values are made available globally in the application
 
