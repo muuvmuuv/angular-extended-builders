@@ -46,10 +46,7 @@ const collectAllFragmentReferences = (node: any, allFragments: any) => {
 	const handleSelectionNode = (selection: any) => {
 		if (selection.kind === "FragmentSpread") {
 			const fragment = allFragments[selection.name.value]
-			const innerFragmentReferences = collectAllFragmentReferences(
-				fragment,
-				allFragments,
-			)
+			const innerFragmentReferences = collectAllFragmentReferences(fragment, allFragments)
 			references.push(...innerFragmentReferences, selection.name.value)
 		}
 	}
@@ -86,30 +83,24 @@ export const generateContentsFromGraphqlString = (graphqlString: any) => {
 			) {
 				const name = definition.name.value
 
-				const fragmentsForOperation = collectAllFragmentReferences(
+				const fragmentsForOperation = collectAllFragmentReferences(definition, allFragments)
+
+				const fragments = fragmentsForOperation.map((fragmentForOperation: any) => {
+					const fragment = allFragments[fragmentForOperation]
+
+					if (!fragment) {
+						throw new Error(
+							`Expected to find fragment definition for ${fragmentForOperation}`,
+						)
+					}
+
+					return fragment
+				})
+
+				const operationDocumentString = generateDocumentNodeStringForOperationDefinition(
 					definition,
-					allFragments,
+					fragments,
 				)
-
-				const fragments = fragmentsForOperation.map(
-					(fragmentForOperation: any) => {
-						const fragment = allFragments[fragmentForOperation]
-
-						if (!fragment) {
-							throw new Error(
-								`Expected to find fragment definition for ${fragmentForOperation}`,
-							)
-						}
-
-						return fragment
-					},
-				)
-
-				const operationDocumentString =
-					generateDocumentNodeStringForOperationDefinition(
-						definition,
-						fragments,
-					)
 				accumulator.push(`export const ${name} = ${operationDocumentString};`)
 			}
 

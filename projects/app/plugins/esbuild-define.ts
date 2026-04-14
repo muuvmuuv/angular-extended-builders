@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/style/noDefaultExport: plugins do that */
 
 import process from "node:process"
+
 import type { Plugin } from "esbuild"
 
 import { globals } from "@/plugins/globals"

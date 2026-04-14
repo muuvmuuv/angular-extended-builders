@@ -12,8 +12,8 @@ I just build this package to provide/implement a more modern base for https://gi
 - [Usage](#usage)
 - [Builders](#builders)
 - [How to](#how-to)
-	- [Esbuild Plugins](#esbuild-plugins)
-	- [Index HTML Transformer](#index-html-transformer)
+  - [Esbuild Plugins](#esbuild-plugins)
+  - [Index HTML Transformer](#index-html-transformer)
 - [Versioning](#versioning)
 
 ## Usage

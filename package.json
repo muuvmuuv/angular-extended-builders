@@ -1,26 +1,27 @@
 {
 	"name": "angular-extended-builders-workspace",
 	"version": "21.0.2",
+	"private": true,
 	"license": "MIT",
 	"type": "module",
-	"private": true,
 	"scripts": {
 		"watch": "pnpm --parallel --filter=!app watch",
 		"build": "pnpm --parallel --filter=!app build",
 		"build-app": "ANGULAR_EXTENDED_BUILDER=debug pnpm --filter=app build",
 		"serve": "pnpm --filter=app serve",
-		"check": "biome check .",
-		"format": "biome check --unsafe --write ."
+		"check": "oxlint . && oxfmt --check .",
+		"format": "oxlint --fix . && oxfmt ."
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.4.11",
 		"@commitlint/cli": "^20.5.0",
 		"@commitlint/config-angular": "^20.5.0",
 		"@release-it/bumper": "^7.0.5",
 		"@types/node": "^24.12.2",
 		"del-cli": "^7.0.0",
 		"lefthook": "^2.1.5",
-		"prettier": "^3.8.2",
+		"oxfmt": "^0.45.0",
+		"oxlint": "^1.60.0",
+		"oxlint-tsgolint": "^0.21.0",
 		"release-it": "^19.2.4",
 		"typescript": "^5.9.3"
 	},

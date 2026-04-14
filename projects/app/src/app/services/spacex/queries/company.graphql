@@ -1,7 +1,0 @@
-query Company {
-	company {
-		ceo
-		coo
-		cto
-	}
-}

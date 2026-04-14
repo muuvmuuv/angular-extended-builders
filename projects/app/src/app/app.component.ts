@@ -1,16 +1,11 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	inject,
-	resource,
-} from "@angular/core"
+import { ChangeDetectionStrategy, Component, inject, resource } from "@angular/core"
 import { RouterOutlet } from "@angular/router"
 import { formatISO } from "date-fns"
 import { xxhash64 } from "hash-wasm"
 import { nanoid } from "nanoid"
 import { firstValueFrom } from "rxjs"
 
-import { SpaceXsService } from "./services/spacex/spacex.service"
+import { RickMortyService } from "./services/rick-morty/rick-morty.service"
 
 @Component({
 	selector: "app-root",
@@ -20,7 +15,7 @@ import { SpaceXsService } from "./services/spacex/spacex.service"
 	imports: [RouterOutlet],
 })
 export class AppComponent {
-	readonly spaceXsService = inject(SpaceXsService)
+	readonly rickMortyService = inject(RickMortyService)
 
 	readonly uid = nanoid()
 	readonly now = formatISO(new Date())
@@ -34,7 +29,7 @@ export class AppComponent {
 	readonly buildDate = BUILD_DATE
 	readonly buildEnv = BUILD_ENV
 
-	readonly spaceXxCompanyInfo = resource({
-		loader: () => firstValueFrom(this.spaceXsService.companyInfo()),
+	readonly characters = resource({
+		loader: () => firstValueFrom(this.rickMortyService.characters()),
 	})
 }

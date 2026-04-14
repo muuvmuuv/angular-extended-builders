@@ -196,7 +196,7 @@ export default {
 	setup: async ({ initialOptions }) => {
 		// Modify esbuild options
 	},
-};
+}
 ```
 
 Example HTML transformer:

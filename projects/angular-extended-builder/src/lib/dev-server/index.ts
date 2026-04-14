@@ -1,16 +1,14 @@
 import path from "node:path"
 import { performance } from "node:perf_hooks"
-import {
-	type DevServerBuilderOutput,
-	executeDevServerBuilder,
-} from "@angular/build"
-import type { IndexHtmlTransform } from "@angular/build/private"
+
 import {
 	type BuilderContext,
 	createBuilder,
 	targetFromTargetString,
 } from "@angular-devkit/architect"
 import { getSystemPath, type json, normalize } from "@angular-devkit/core"
+import { type DevServerBuilderOutput, executeDevServerBuilder } from "@angular/build"
+import type { IndexHtmlTransform } from "@angular/build/private"
 import { from, type Observable, switchMap } from "rxjs"
 
 import type {
@@ -59,7 +57,8 @@ function executeBuilder(
 			const setupStartTime = performance.now()
 
 			const projectRoot = projectMetadata?.root
-				? path.join(workspaceRoot, projectMetadata.root.toString())
+				? // oxlint-disable-next-line typescript/no-base-to-string
+					path.join(workspaceRoot, projectMetadata.root.toString())
 				: workspaceRoot
 			const tsConfig = path.join(workspaceRoot, buildOptions.tsConfig)
 
@@ -79,11 +78,7 @@ function executeBuilder(
 					debug.debug(`Loading middleware: ${middlewarePath}`)
 					try {
 						// biome-ignore lint/performance/noAwaitInLoops: fine here really
-						const mw = await loadModule<Middleware>(
-							projectRoot,
-							middlewarePath,
-							tsConfig,
-						)
+						const mw = await loadModule<Middleware>(projectRoot, middlewarePath, tsConfig)
 						middleware.push(mw)
 						debug.debug(`Loaded middleware: ${middlewarePath}`)
 					} catch (error) {
@@ -93,11 +88,7 @@ function executeBuilder(
 				}
 			}
 
-			const buildPlugins = await loadPlugins(
-				buildOptions.plugins,
-				projectRoot,
-				tsConfig,
-			)
+			const buildPlugins = await loadPlugins(buildOptions.plugins, projectRoot, tsConfig)
 
 			let indexHtmlTransformer: IndexHtmlTransform | undefined
 			if (buildOptions.indexHtmlTransformer) {
@@ -108,9 +99,7 @@ function executeBuilder(
 						buildOptions.indexHtmlTransformer,
 						tsConfig,
 					)
-					debug.debug(
-						`Loaded HTML transformer: ${buildOptions.indexHtmlTransformer}`,
-					)
+					debug.debug(`Loaded HTML transformer: ${buildOptions.indexHtmlTransformer}`)
 				} catch (error) {
 					debug.error(
 						`Failed to load HTML transformer: ${buildOptions.indexHtmlTransformer}`,

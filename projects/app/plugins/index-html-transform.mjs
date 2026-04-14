@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/style/noDefaultExport: required here */
 
 import process from "node:process"
+
 import { minify } from "html-minifier-terser"
 
 export default function indexTransformer(compiledHtml = "") {
@@ -12,8 +13,8 @@ export default function indexTransformer(compiledHtml = "") {
 	html = html.replaceAll("{nonce}", NONCE)
 
 	const customerApis = isProduction
-		? "https://spacex-production.up.railway.app"
-		: "https://spacex-production.up.railway.app"
+		? "https://rickandmortyapi.com"
+		: "https://rickandmortyapi.com"
 
 	const csp = [
 		"default-src 'self'",

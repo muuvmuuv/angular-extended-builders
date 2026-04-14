@@ -14,17 +14,10 @@ function merge(obj1, obj2) {
 // ----------------------------------------
 // Create Schema: Application
 
-import originalApplicationSchema from "./node_modules/@angular/build/src/builders/application/schema.json" with {
-	type: "json",
-}
-import extendedApplicationSchema from "./src/lib/application/schema.json" with {
-	type: "json",
-}
+import originalApplicationSchema from "./node_modules/@angular/build/src/builders/application/schema.json" with { type: "json" }
+import extendedApplicationSchema from "./src/lib/application/schema.json" with { type: "json" }
 
-const applicationSchema = merge(
-	originalApplicationSchema,
-	extendedApplicationSchema,
-)
+const applicationSchema = merge(originalApplicationSchema, extendedApplicationSchema)
 
 writeFileSync(
 	"./dist/lib/application/schema.json",
@@ -34,26 +27,17 @@ writeFileSync(
 // ----------------------------------------
 // Create Schema: Dev-server
 
-import originalDevServerSchema from "./node_modules/@angular/build/src/builders/dev-server/schema.json" with {
-	type: "json",
-}
-import extendedDevServerSchema from "./src/lib/dev-server/schema.json" with {
-	type: "json",
-}
+import originalDevServerSchema from "./node_modules/@angular/build/src/builders/dev-server/schema.json" with { type: "json" }
+import extendedDevServerSchema from "./src/lib/dev-server/schema.json" with { type: "json" }
 
 const devServerSchema = merge(originalDevServerSchema, extendedDevServerSchema)
 
-writeFileSync(
-	"./dist/lib/dev-server/schema.json",
-	JSON.stringify(devServerSchema, null, 2),
-)
+writeFileSync("./dist/lib/dev-server/schema.json", JSON.stringify(devServerSchema, null, 2))
 
 // ----------------------------------------
 // Create Schema: angular.json
 
-import angularSchema from "@angular/cli/lib/config/schema.json" with {
-	type: "json",
-}
+import angularSchema from "@angular/cli/lib/config/schema.json" with { type: "json" }
 
 // Exclude from one-of-not since we add definitions now
 

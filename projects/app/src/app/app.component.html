@@ -10,17 +10,17 @@
 	<li>Build Env: {{ buildEnv }}</li>
 </ul>
 
-@if (spaceXxCompanyInfo.isLoading()) {
-	<h6>Loading SpaceX...</h6>
+@if (characters.isLoading()) {
+	<h6>Loading Rick and Morty...</h6>
 }
 
-@if (spaceXxCompanyInfo.value(); as info) {
-	<h3>Space X Company Info</h3>
+@if (characters.value(); as data) {
+	<h3>Rick and Morty Characters ({{ data.info?.count }} total)</h3>
 
 	<ul>
-		<li>CEO: {{ info.ceo }}</li>
-		<li>COO: {{ info.coo }}</li>
-		<li>CTO: {{ info.cto }}</li>
+		@for (character of data.results; track character?.id) {
+			<li>{{ character?.name }} - {{ character?.species }} ({{ character?.status }})</li>
+		}
 	</ul>
 }
 

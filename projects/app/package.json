@@ -1,8 +1,8 @@
 {
 	"name": "app",
 	"version": "0.3.0",
-	"type": "module",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"build": "ng build",
 		"serve": "ng serve",

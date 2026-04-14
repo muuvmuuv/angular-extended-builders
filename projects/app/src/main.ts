@@ -1,9 +1,5 @@
 import { provideHttpClient, withFetch } from "@angular/common/http"
-import {
-	CSP_NONCE,
-	inject,
-	provideZonelessChangeDetection,
-} from "@angular/core"
+import { CSP_NONCE, inject, provideZonelessChangeDetection } from "@angular/core"
 import { bootstrapApplication } from "@angular/platform-browser"
 import { provideRouter, withComponentInputBinding } from "@angular/router"
 import { InMemoryCache } from "@apollo/client/cache"
@@ -15,7 +11,7 @@ import { routes } from "@/app/routes"
 import { AppComponent } from "./app/app.component"
 import { environment } from "./environments/environment"
 
-bootstrapApplication(AppComponent, {
+void bootstrapApplication(AppComponent, {
 	providers: [
 		{
 			provide: CSP_NONCE,
@@ -29,7 +25,7 @@ bootstrapApplication(AppComponent, {
 
 			return {
 				link: httpLink.create({
-					uri: "https://spacex-production.up.railway.app",
+					uri: "https://rickandmortyapi.com/graphql",
 				}),
 				cache: new InMemoryCache(),
 				assumeImmutableResults: true,
@@ -39,4 +35,4 @@ bootstrapApplication(AppComponent, {
 			}
 		}),
 	],
-})
+}).catch(console.error)

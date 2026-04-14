@@ -5,7 +5,8 @@
 			"Bash(git commit:*)",
 			"Bash(git add:*)",
 			"Bash(pnpm build:*)",
-			"WebFetch(domain:tsx.is)"
+			"WebFetch(domain:tsx.is)",
+			"WebFetch(domain:oxc.rs)"
 		],
 		"deny": []
 	}

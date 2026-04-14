@@ -19,8 +19,7 @@ const LOG_LEVEL_NAMES = {
 	debug: LogLevel.DEBUG,
 	trace: LogLevel.TRACE,
 } as const
-export type LOG_LEVEL_NAMES =
-	(typeof LOG_LEVEL_NAMES)[keyof typeof LOG_LEVEL_NAMES]
+export type LOG_LEVEL_NAMES = (typeof LOG_LEVEL_NAMES)[keyof typeof LOG_LEVEL_NAMES]
 
 const LOG_LEVEL = (() => {
 	const level = process.env.ANGULAR_EXTENDED_BUILDER
@@ -50,8 +49,7 @@ const colors = {
 
 const PREFIX = "[angular-extended-builder]"
 
-const shouldLog = (level: LogLevel): boolean =>
-	LOG_LEVEL !== null && LOG_LEVEL >= level
+const shouldLog = (level: LogLevel): boolean => LOG_LEVEL !== null && LOG_LEVEL >= level
 
 export const debug = {
 	enabled: LOG_LEVEL !== null,
@@ -70,10 +68,7 @@ export const debug = {
 			return
 		}
 		const prefix = `${colors.yellow}${PREFIX}${colors.reset}`
-		console.warn(
-			`${prefix} ${colors.yellow}⚠${colors.reset} ${message}`,
-			...args,
-		)
+		console.warn(`${prefix} ${colors.yellow}⚠${colors.reset} ${message}`, ...args)
 	},
 
 	info: (message: string, ...args: unknown[]) => {
@@ -97,10 +92,7 @@ export const debug = {
 			return
 		}
 		const prefix = `${colors.blue}${PREFIX}${colors.reset}`
-		console.log(
-			`${prefix} ${colors.dim}[debug]${colors.reset} ${message}`,
-			...args,
-		)
+		console.log(`${prefix} ${colors.dim}[debug]${colors.reset} ${message}`, ...args)
 	},
 
 	loading: (message: string, ...args: unknown[]) => {
@@ -117,8 +109,6 @@ export const debug = {
 		}
 		const prefix = `${colors.magenta}${PREFIX}${colors.reset}`
 		const formatted = inspect(data, { colors: true, depth: 3 })
-		console.log(
-			`${prefix} ${colors.dim}[trace:${label}]${colors.reset}\n${formatted}`,
-		)
+		console.log(`${prefix} ${colors.dim}[trace:${label}]${colors.reset}\n${formatted}`)
 	},
 }

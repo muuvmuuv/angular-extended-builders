@@ -1,6 +1,7 @@
 import { extname, join } from "node:path"
-import tsxCjs from "tsx/cjs/api"
-import tsxEsm from "tsx/esm/api"
+
+import * as tsxCjs from "tsx/cjs/api"
+import * as tsxEsm from "tsx/esm/api"
 
 import { debug } from "./debug"
 
@@ -19,11 +20,7 @@ function collectDependencies(module?: NodeJS.Module, depth = 4): string[] {
 		deps.push(module.filename)
 	}
 	if (module.children?.length > 0) {
-		deps.push(
-			...module.children.flatMap((child) =>
-				collectDependencies(child, depth - 1),
-			),
-		)
+		deps.push(...module.children.flatMap((child) => collectDependencies(child, depth - 1)))
 	}
 	return deps
 }
@@ -95,10 +92,7 @@ export async function loadModule<T>(
 		const mod = tsxCjs.require(resolvedModulePath, projectRoot)
 		const modPath = tsxCjs.require.resolve(resolvedModulePath, projectRoot)
 		debug.trace("Module", mod)
-		debug.trace(
-			"Import deps",
-			collectDependencies(tsxCjs.require.cache[modPath]),
-		)
+		debug.trace("Import deps", collectDependencies(tsxCjs.require.cache[modPath]))
 		return resolveDefaultExport(mod)
 	}
 
