@@ -1,0 +1,4 @@
+# TypeScript incremental build cache — never publish.
+# The repo .gitignore lives at the monorepo root, outside this package,
+# so npm does not see it; this file keeps build cache out of releases.
+*.tsbuildinfo

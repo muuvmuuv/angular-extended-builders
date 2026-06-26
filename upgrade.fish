@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-set ANGULAR_VERSION "^21.0.0"
+set ANGULAR_VERSION "^22.0.0"
 
 pnpm --filter=angular-extended-builder exec ng update --allow-dirty --force @angular/cli@$ANGULAR_VERSION
 

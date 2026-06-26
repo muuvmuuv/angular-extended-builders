@@ -120,9 +120,10 @@ export default function middleware(
 
 The major and minor version of this library aligns with the supported Angular version:
 
-| angular-extended-builder | Angular | Node.js |
-| ------------------------ | ------- | ------- |
-| 21.x                     | 21.x    | >= 22   |
-| 20.x                     | 20.x    | >= 20   |
+| angular-extended-builder | Angular | Node.js  |
+| ------------------------ | ------- | -------- |
+| 22.x                     | 22.x    | >= 22.22 |
+| 21.x                     | 21.x    | >= 22    |
+| 20.x                     | 20.x    | >= 20    |
 
 Patch releases contain bug fixes and enhancements only. Major and minor releases follow Angular's release cycle.

@@ -182,7 +182,7 @@ To use this builder in an Angular project:
 
 This project uses [Proto](https://moonrepo.dev/proto) (.prototools) to manage binary versions:
 
-- **Node.js**: ^24.11.0 (managed by Proto)
+- **Node.js**: ^24.15.0 (managed by Proto)
 - **pnpm**: ^10.20.0 (managed by Proto)
 
 **Important**: When updating dependencies, be careful not to accidentally update `@types/node` to versions incompatible with the Node.js version specified in .prototools. The upgrade scripts should respect the Node.js version constraint.
