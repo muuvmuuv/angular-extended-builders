@@ -1,6 +1,6 @@
 {
 	"name": "angular-extended-builder",
-	"version": "21.2.0",
+	"version": "22.0.0",
 	"description": "Angular extended builders with custom options for esbuild and Vite",
 	"keywords": [
 		"angular",
