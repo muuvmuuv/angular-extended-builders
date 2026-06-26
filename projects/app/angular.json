@@ -35,7 +35,7 @@
 						"github-pages": {
 							"subresourceIntegrity": true,
 							"outputHashing": "all",
-							"baseHref": "/angular-extended-builder/"
+							"baseHref": "/angular-extended-builders/"
 						},
 						"development": {
 							"optimization": false,
