@@ -32,6 +32,11 @@
 							"subresourceIntegrity": true,
 							"outputHashing": "all"
 						},
+						"github-pages": {
+							"subresourceIntegrity": true,
+							"outputHashing": "all",
+							"baseHref": "/angular-extended-builder/"
+						},
 						"development": {
 							"optimization": false,
 							"extractLicenses": false,

@@ -16,7 +16,7 @@
 	},
 	"plugins": {
 		"@release-it/bumper": {
-			"out": ["projects/angular-extended-builder/package.json"]
+			"out": ["projects/angular-extended-builder/package.json", "package.json"]
 		}
 	}
 }

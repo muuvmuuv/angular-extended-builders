@@ -32,7 +32,9 @@
 	"typings": "./dist/index.d.ts",
 	"scripts": {
 		"watch": "tsc --watch",
-		"build": "del-cli dist/ && tsc -p tsconfig.prod.json && node schemes.mjs",
+		"build": "cp ../../README.md README.md && del-cli dist/ && tsc -p tsconfig.prod.json && node schemes.mjs",
+		"test": "vitest run",
+		"test:watch": "vitest",
 		"ng": "ng"
 	},
 	"dependencies": {
@@ -44,7 +46,7 @@
 		"@angular/compiler": "^22.0.3",
 		"@angular/compiler-cli": "^22.0.3",
 		"ng-packagr": "^22.0.0",
-		"typescript": ">=6.0 <6.1"
+		"typescript": "6.0.3"
 	},
 	"peerDependencies": {
 		"@angular-devkit/architect": "^0.2200.0",
@@ -53,7 +55,7 @@
 		"rxjs": "^7.8.1"
 	},
 	"engines": {
-		"node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+		"node": ">=24"
 	},
 	"builders": "builders.json"
 }

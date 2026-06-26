@@ -35,6 +35,8 @@ Consider analyzing their implementation when:
 - `pnpm build` - Build the angular-extended-builder package
 - `pnpm build-app` - Build the demo app (with debug logging enabled)
 - `pnpm serve` - Serve the demo app with hot reload
+- `pnpm test` - Run unit tests (Vitest)
+- `pnpm test:watch` - Run unit tests in watch mode
 - `pnpm check` - Run oxlint and oxfmt checks on entire codebase
 - `pnpm format` - Run oxlint --fix and oxfmt to auto-fix
 
@@ -97,20 +99,20 @@ Before creating a release:
 
 ### 3. Publishing
 
-The package uses a one-step release process:
+Releasing is a two-stage flow:
 
 ```bash
 pnpm release
 ```
 
+`pnpm release` runs release-it: it runs `pnpm check`, bumps the version in both `projects/angular-extended-builder/package.json` and the root `package.json` (via @release-it/bumper), commits `build: release v<version>`, and tags `v<version>` on `main`. It does **not** publish. Pushing the `v*` tag triggers the GitHub Actions `publish.yml` workflow, which builds the package and runs `npm publish` from the package root via npm OIDC trusted publishing.
+
 ### 4. Post-release
 
 After publishing:
 
-1. **Tag the release** in git with version number
-2. **Create GitHub release** with changelog
-3. **Update documentation** if API changes were made
-4. **Test installation** in a fresh Angular project
+1. **Update documentation** if API changes were made
+2. **Test installation** in a fresh Angular project
 
 ### 5. Release Notes
 
@@ -182,8 +184,8 @@ To use this builder in an Angular project:
 
 This project uses [Proto](https://moonrepo.dev/proto) (.prototools) to manage binary versions:
 
-- **Node.js**: ^24.15.0 (managed by Proto)
-- **pnpm**: ^10.20.0 (managed by Proto)
+- **Node.js**: ^24.18.0 (managed by Proto)
+- **pnpm**: ^11.9.0 (managed by Proto)
 
 **Important**: When updating dependencies, be careful not to accidentally update `@types/node` to versions incompatible with the Node.js version specified in .prototools. The upgrade scripts should respect the Node.js version constraint.
 

@@ -1,5 +1,5 @@
 {
-	"name": "angular-extended-builders-workspace",
+	"name": "angular-extended-builder-workspace",
 	"version": "22.0.0",
 	"private": true,
 	"license": "MIT",
@@ -9,8 +9,11 @@
 		"build": "pnpm --parallel --filter=!app build",
 		"build-app": "ANGULAR_EXTENDED_BUILDER=debug pnpm --filter=app build",
 		"serve": "pnpm --filter=app serve",
+		"test": "pnpm --filter=angular-extended-builder test",
+		"test:watch": "pnpm --filter=angular-extended-builder test:watch",
 		"check": "oxlint . && oxfmt --check .",
-		"format": "oxlint --fix . && oxfmt ."
+		"format": "oxlint --fix . && oxfmt .",
+		"release": "release-it"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^20.5.0",
@@ -23,9 +26,10 @@
 		"oxlint": "^1.60.0",
 		"oxlint-tsgolint": "^0.21.0",
 		"release-it": "^19.2.4",
-		"typescript": ">=6.0 <6.1"
+		"typescript": "6.0.3",
+		"vitest": "^4.1.4"
 	},
 	"engines": {
-		"node": ">=22.22.3"
+		"node": ">=24"
 	}
 }

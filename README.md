@@ -79,7 +79,7 @@ export default {
 } satisfies Plugin
 ```
 
-Plugins can also be referenced as npm package names (e.g., `"@project/esbuild-graphql"`).
+Plugins can also be referenced as npm package names.
 
 Examples: [projects/app/plugins](https://github.com/muuvmuuv/angular-extended-builders/tree/main/projects/app/plugins)
 

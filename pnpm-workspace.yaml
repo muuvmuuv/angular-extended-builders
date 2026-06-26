@@ -2,6 +2,13 @@ packages:
   - projects/*
 
 minimumReleaseAge: 4320
+minimumReleaseAgeExclude:
+  - "@angular/*"
+  - "@angular-devkit/*"
+  - "@schematics/angular"
+  - ng-packagr
+
+verifyDepsBeforeRun: false
 
 allowBuilds:
   "@parcel/watcher": true
@@ -9,3 +16,4 @@ allowBuilds:
   lefthook: true
   lmdb: true
   msgpackr-extract: true
+  less: false

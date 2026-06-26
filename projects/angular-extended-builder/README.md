@@ -1,7 +1,5 @@
 # Angular Extended Builder
 
-<!-- Intro section should stay in line with root readme -->
-
 > Forked/inspired by [angular-builders](https://github.com/just-jeb/angular-builders)
 
 Custom Angular builders that extend `@angular/build` with support for esbuild plugins, index HTML transformers, and Vite dev-server middlewares.
